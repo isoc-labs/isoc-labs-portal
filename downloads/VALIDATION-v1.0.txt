@@ -1,0 +1,27 @@
+Suricata v1.0 — Distribution and Sensor Verification
+===================================================
+Updated: 2026-11-09
+
+Downloaded signature file:
+  local-web-attack-ai-v1.0-333.rules
+SHA-256:
+  5947a64a6b45ee122537a1ea166ebf383307302cf210b63d24b350b0df98eb96
+
+333 unique alert SIDs. Both SID 9005017 and SID 9005055 included.
+All 333 signature lines are byte-for-byte identical to the installed
+Stellar Cyber 7.0 Modular Sensor custom-defined signature lines.
+
+Actual sensor (Suricata 8.0.1):
+  331/333 unique original SIDs produced individually attributed alerts.
+  2/333 (9005017, 9005055) are installed but unconfirmed by live alerts.
+  These are controlled lab test results, NOT live attack detection rates.
+  DP/UI alert delivery and production false-positive rates were not verified.
+
+The original unmodified v1.0 signature rules are distributed. Temporary
+QA-only variants for the last two SIDs are not included because their
+false-positive/false-negative release criteria were not met.
+
+The import may replace existing custom_defined.rules on another sensor.
+Back up current rules, review default ET/IDS overlap, and validate in a
+test environment before use. The operating sensor already runs all 333
+signature definitions; do not perform a redundant import/restart there.

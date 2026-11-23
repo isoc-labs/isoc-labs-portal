@@ -1,0 +1,91 @@
+---
+title: "Projects"
+description: "Browse the main ISOC Labs and DataRelay Labs projects by area."
+---
+
+# Projects
+
+Each project can be used independently. Deploy only the capabilities you need.
+
+<Note>
+  **Data Relay Link and Data Relay Control are different products.** Data Relay Link handles secure connectivity: remote access into private systems and controlled egress out of restricted networks. Data Relay Control handles enterprise data-flow processing, governance, and delivery. Control is not a centralized manager for Link.
+</Note>
+
+## Core projects
+
+<CardGroup cols={2}>
+  <Card title="Data Relay Link" icon="network-wired" href="https://link.datarelay.run/">
+    Lightweight secure-connectivity gateway for small environments. It publishes selected SSH, HTTP, HTTPS, or custom TCP services from systems behind NAT/firewalls and also provides agentless Controlled Egress to approved Internet destinations through HTTP/HTTPS proxy policy.
+
+    **Product:** `link.datarelay.run`  
+    **Source:** `datarelay-labs/datarelay-link`
+  </Card>
+
+  <Card title="DP Ubuntu Upgrade Mirror Manager" icon="arrow-up-from-bracket" href="https://dpos.xdr.ooo/">
+    Prepares one Ubuntu 24.04 mirror server and uses it to drive controlled Stellar Cyber DP upgrades from Ubuntu 16.04 through 24.04, followed by DP 6.6.0 Phase 2 bringup. DP hosts can work from the local HTTP mirror without direct access to external artifact sources.
+
+    **Product:** `dpos.xdr.ooo`  
+    **Source:** `xdr-labs/ubuntu-mirror-automation`
+  </Card>
+
+  <Card title="Data Relay Control" icon="arrows-left-right" href="https://control.datarelay.run/">
+    Enterprise Data Control Gateway built around **One Stream → Many Routes → Many Destinations**. Streams own source execution and progress; Routes apply destination-specific Transform, optional Protection/Policy, and delivery controls. The current product supports governance, audit, quarantine, replay, backup, and delivery history.
+
+    **Product:** `control.datarelay.run`  
+    **Source:** `datarelay-labs/datarelay-control`
+  </Card>
+
+  <Card title="Detection Scenario Platform (DSP)" icon="radar" href="https://dsp.xdr.ooo/">
+    Runs controlled security scenarios for **XDR/NDR customer POC validation**. It records the activity it generated in the Event Store so engineers can compare that record with XDR/NDR detections. Local and remote webshell execution are supported where documented.
+
+    **Product:** `dsp.xdr.ooo`  
+    **Source:** `xdr-labs/xdr-poc-script`
+  </Card>
+</CardGroup>
+
+## Deployment & appliance operations
+
+<CardGroup cols={2}>
+  <Card title="OpenXDR KVM Installer" icon="server" href="https://kvm.xdr.ooo/">
+    Automates KVM host preparation and VM deployment for Stellar Cyber Data Processor, Sensor, high-performance Sensor, and AIO + Sensor configurations. It covers hardware detection, networking, KVM/libvirt, storage, SR-IOV/PCI passthrough, and resumable deployment workflows.
+  </Card>
+
+  <Card title="Stellar Appliance CLI" icon="terminal" href="/products/stellar-appliance-cli">
+    Unified `aella_cli` interface for KVM hosts created by the deployment tooling. It manages network settings, DNS/NTPsec, ACLs, host information, services, VM console/autostart, patching, and related appliance operations.
+  </Card>
+</CardGroup>
+
+## Lab & integration utilities
+
+<CardGroup cols={2}>
+  <Card title="XDR Lab Appliance" icon="flask" href="/products/xdr-lab-appliance">
+    Self-contained XDR/NDR lab built on Ubuntu 24.04, KVM, and Open vSwitch. It runs a Stellar Sensor with Linux and Windows test targets, mirrors lab traffic, provides predictable reverse-NAT access, and can be rebuilt from configuration.
+  </Card>
+
+  <Card title="Parser Studio" icon="file-code" href="/products/parser-studio">
+    Browser-based security log parser builder for Stellar Cyber 7.0. Review Syslog, JSON, CEF, LEEF, KV, and CSV event samples, inspect partial parses, refine field mappings, and generate a matching Ruby parser and CONF draft. Supports Auto Parser and manually reviewed ChatGPT Assisted Parser workflows.
+
+    **App:** `app.parser.xdr.ooo` · **Docs:** `parser.xdr.ooo`<br />**Source:** `xdr-labs/parser-studio`
+  </Card>
+
+  <Card title="AI-Assisted Attack Detection Rules" icon="shield-check" href="/products/ai-assisted-attack-detection-rules">
+    Download 333 (v1.0) Suricata alert rules covering common web attacks, identifiable AI-assisted penetration-testing tools, and selected C2 and exploit activity.
+  </Card>
+
+  <Card title="Stellar Data Exporter" icon="database" href="/products/stellar-data-exporter">
+    Browser-based raw-data query and export utility for Stellar Cyber. It supports Root Scope and User Scope credentials, multi-source query, Preview, CSV/JSON/NDJSON output, browser download, S3-compatible storage, SFTP, file splitting, progress, and resumable remote export workflows.
+
+    **Guide:** `xdr.ooo/products/stellar-data-exporter-guide` · **Source:** `xdr-labs/stellar-data-exporter`
+  </Card>
+
+  <Card title="Stellar Alert & Case Relay" icon="arrow-right-arrow-left" href="https://stellar-relay.xdr.ooo/">
+    Lightweight Python relay for organizations that want Stellar Cyber alerts and cases delivered into an existing SIEM or SOC portal. It polls the Stellar Cyber API and forwards newline-delimited JSON over TCP with independent Alert/Case streams, checkpointing, retry/recovery, backfill, and separate destinations.
+
+    **Product:** `stellar-relay.xdr.ooo`  
+    **Source:** `xdr-labs/Stellar-Case-Alert-to-Sylog`
+  </Card>
+</CardGroup>
+
+<Card title="See project relationships and links" icon="diagram-project" href="/project-map">
+  View the overall project map and jump to product pages or source repositories.
+</Card>

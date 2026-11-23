@@ -1,0 +1,51 @@
+---
+title: "XDR Lab Appliance"
+description: "Rebuildable XDR/NDR lab appliance based on Ubuntu 24.04, KVM, and Open vSwitch."
+---
+
+# XDR Lab Appliance
+
+XDR Lab Appliance turns one Ubuntu 24.04 host into a self-contained, rebuildable XDR/NDR test environment. KVM provides the virtual machines and Open vSwitch provides the lab network and traffic-mirroring plane.
+
+## Lab components
+
+- **Stellar Cyber Modular Data Sensor** VM for observing mirrored lab traffic
+- **Linux target** provisioned with cloud-init
+- **Windows target** deployed from a prepared qcow2 image
+- optional disposable Linux test VM for additional scenarios
+- deterministic reverse-NAT mappings for operator access
+- `aella_cli lab` commands for deployment, VM state management, snapshots, mirror validation, NAT checks, and scenario operations
+
+## Architecture at a glance
+
+```mermaid
+flowchart LR
+  H[Ubuntu 24.04 Appliance Host]
+  O[Open vSwitch Lab Network]
+  S[Stellar Sensor]
+  L[Linux Target]
+  W[Windows Target]
+  H --> O
+  O --> S
+  O --> L
+  O --> W
+  L -. mirrored traffic .-> S
+  W -. mirrored traffic .-> S
+```
+
+The entire lab can be torn down and rebuilt from version-controlled configuration. That makes it useful for repeatable XDR/NDR validation instead of a test network that has to be rebuilt by hand.
+
+## Host requirements
+
+The documented architecture uses Ubuntu 24.04 with KVM/libvirt and Open vSwitch.
+
+- **Reduced footprint:** about 4 vCPU / 16 GiB RAM / 200 GiB disk
+- **Recommended for all four declared VMs together:** about 12+ vCPU / 24–32 GiB RAM plus snapshot/disk headroom
+
+When the appliance itself runs as a VM, nested virtualization must be exposed by the outer hypervisor. Traffic mirroring and nested L2 operation also require appropriate virtual-switch security settings.
+
+Use `docs/deployment-readiness.md` in the source repository for the current sizing and topology readiness details.
+
+<Card title="Source repository" icon="github" href="https://github.com/xdr-labs/xdr-lab-appliance">
+  Review the current lab architecture, deployment requirements, runtime validation, and operating procedures.
+</Card>

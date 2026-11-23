@@ -1,0 +1,91 @@
+---
+title: "프로젝트 소개"
+description: "ISOC Labs와 DataRelay Labs의 주요 프로젝트를 영역별로 소개합니다."
+---
+
+# 프로젝트 소개
+
+각 프로젝트는 독립적으로 사용할 수 있으며, 필요한 기능만 선택해서 배포할 수 있습니다.
+
+<Note>
+  **Data Relay Link와 Data Relay Control은 서로 다른 제품입니다.** Data Relay Link는 사설 시스템의 안전한 원격 접속과 제한망의 승인된 외부 접속을 담당합니다. Data Relay Control은 기업 데이터의 처리, 거버넌스, 전달을 담당하며 Link의 중앙 관리 제품이 아닙니다.
+</Note>
+
+## 핵심 프로젝트
+
+<CardGroup cols={2}>
+  <Card title="Data Relay Link" icon="network-wired" href="https://link.datarelay.run/">
+    소규모 환경을 위한 경량 보안 연결 게이트웨이입니다. NAT/방화벽 뒤 시스템에서 필요한 SSH, HTTP, HTTPS, 사용자 지정 TCP 서비스만 선택해 공개할 수 있습니다. 제한망에서는 에이전트 설치 없이 HTTP/HTTPS 프록시를 통해 승인된 인터넷 목적지만 허용할 수 있습니다.
+
+    **제품:** `link.datarelay.run`  
+    **소스:** `datarelay-labs/datarelay-link`
+  </Card>
+
+  <Card title="DP Ubuntu Upgrade Mirror Manager" icon="arrow-up-from-bracket" href="https://dpos.xdr.ooo/">
+    Ubuntu 24.04 미러 서버 한 대를 준비한 뒤 Stellar Cyber DP를 Ubuntu 16.04에서 18.04 → 20.04 → 22.04 → 24.04 순으로 업그레이드하고, 마지막으로 DP 6.6.0 Phase 2를 진행합니다. 업그레이드 중 DP는 외부 저장소에 직접 접속하지 않고 로컬 HTTP 미러에서 필요한 파일을 받을 수 있습니다.
+
+    **제품:** `dpos.xdr.ooo`  
+    **소스:** `xdr-labs/ubuntu-mirror-automation`
+  </Card>
+
+  <Card title="Data Relay Control" icon="arrows-left-right" href="https://control.datarelay.run/">
+    **One Stream → Many Routes → Many Destinations** 구조의 데이터 제어 게이트웨이입니다. Stream이 소스 실행과 진행 상태를 관리하고, Route가 목적지별 변환, 보호/정책, 전달을 담당합니다. 거버넌스, 감사, 격리, 재처리, 백업과 전달 이력도 관리합니다.
+
+    **제품:** `control.datarelay.run`  
+    **소스:** `datarelay-labs/datarelay-control`
+  </Card>
+
+  <Card title="Detection Scenario Platform (DSP)" icon="radar" href="https://dsp.xdr.ooo/">
+    **XDR/NDR 고객 POC 검증**을 위해 현실적인 보안 활동을 실행하고, 무엇을 실행했는지 Event Store와 보고서에 남기는 시나리오 도구입니다. 문서에 명시된 범위에서 로컬 및 원격 Webshell 실행을 지원합니다.
+
+    **제품:** `dsp.xdr.ooo`  
+    **소스:** `xdr-labs/xdr-poc-script`
+  </Card>
+</CardGroup>
+
+## 배포 및 어플라이언스 운영
+
+<CardGroup cols={2}>
+  <Card title="OpenXDR KVM Installer" icon="server" href="https://kvm.xdr.ooo/ko">
+    Stellar Cyber Data Processor, Sensor, High-Performance Sensor, AIO + Sensor 구성을 KVM에 배포하는 자동화 프로젝트입니다. 하드웨어와 NIC를 감지하고 네트워크, KVM/libvirt, 스토리지, SR-IOV/PCI Passthrough를 구성하며, 중단 후 이어서 진행할 수 있는 VM 배포 절차를 제공합니다.
+  </Card>
+
+  <Card title="Stellar Appliance CLI" icon="terminal" href="/ko/products/stellar-appliance-cli">
+    KVM Installer로 구축한 호스트를 운영하기 위한 통합 `aella_cli`입니다. 네트워크, DNS/NTPsec, ACL, 시스템 정보, 서비스, VM 콘솔/자동 시작, 패치 작업을 하나의 CLI에서 처리합니다.
+  </Card>
+</CardGroup>
+
+## 테스트 랩 및 연동 도구
+
+<CardGroup cols={2}>
+  <Card title="XDR Lab Appliance" icon="flask" href="/ko/products/xdr-lab-appliance">
+    Ubuntu 24.04, KVM, Open vSwitch 기반의 독립형 XDR/NDR 테스트 랩입니다. Stellar Sensor와 Linux/Windows 테스트 대상, 트래픽 미러링, 고정 Reverse-NAT 접속 구성을 포함하며 랩 전체를 다시 구축할 수 있습니다.
+  </Card>
+
+  <Card title="Parser Studio" icon="file-code" href="/ko/products/parser-studio">
+    Stellar Cyber 7.0용 보안 로그 파서 생성 웹 도구입니다. Syslog, JSON, CEF, LEEF, KV, CSV 등의 샘플 구조를 검토하고 부분 파싱 구간과 필드 매핑을 확인한 뒤 Ruby + CONF 파서 초안을 생성합니다. Auto Parser와 ChatGPT Assisted Parser를 지원합니다.
+
+    **앱:** `app.parser.xdr.ooo` · **문서:** `parser.xdr.ooo`<br />**소스:** `xdr-labs/parser-studio`
+  </Card>
+
+  <Card title="AI 지원 공격 탐지 룰" icon="shield-check" href="/ko/products/ai-assisted-attack-detection-rules">
+    웹 공격과 AI 지원 모의해킹 도구, 일부 C2/Red Team 공격 패턴에 대응하는 Suricata 탐지 룰 333개(v1.0)를 다운로드합니다.
+  </Card>
+
+  <Card title="Stellar Data Exporter" icon="database" href="/ko/products/stellar-data-exporter">
+    Stellar Cyber 원시 데이터를 브라우저에서 조회하고 내보내는 도구입니다. Root Scope/User Scope 인증, 여러 Data Source 조회, Preview, CSV/JSON/NDJSON, 브라우저 다운로드, S3 호환 스토리지, SFTP, 파일 분할, 진행률 표시, 원격 전송 재개를 지원합니다.
+
+    **사용 설명서:** `xdr.ooo/ko/products/stellar-data-exporter-guide` · **소스:** `xdr-labs/stellar-data-exporter`
+  </Card>
+
+  <Card title="Stellar Alert & Case Relay" icon="arrow-right-arrow-left" href="https://stellar-relay.xdr.ooo/">
+    기존 SIEM 또는 SOC 포털로 Stellar Cyber Alert와 Case를 전달하기 위한 경량 Python 중계 도구입니다. Stellar Cyber API를 주기적으로 조회해 TCP NDJSON으로 전송하며, Alert/Case를 독립적으로 처리하고 체크포인트, 재시도/복구, 백필, 별도 목적지를 지원합니다.
+
+    **제품:** `stellar-relay.xdr.ooo`  
+    **소스:** `xdr-labs/Stellar-Case-Alert-to-Sylog`
+  </Card>
+</CardGroup>
+
+<Card title="프로젝트 관계와 링크 한눈에 보기" icon="diagram-project" href="/ko/project-map">
+  전체 프로젝트 관계도와 제품 페이지/소스 디렉터리를 확인합니다.
+</Card>

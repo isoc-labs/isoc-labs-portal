@@ -1,0 +1,134 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "ISOC Labs",
+  "description": "A central portal for ISOC Labs projects, tools, documentation, and open-source engineering work.",
+  "colors": {
+    "primary": "#1F59E0",
+    "light": "#2982E8",
+    "dark": "#5B8CFF"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "한국어",
+        "href": "/ko"
+      },
+      {
+        "type": "github",
+        "href": "https://github.com/xdr-labs"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Explore Projects",
+      "href": "/projects"
+    }
+  },
+  "search": {
+    "prompt": "Search ISOC Labs..."
+  },
+  "seo": {
+    "indexing": "navigable",
+    "metatags": {
+      "canonical": "https://xdr.ooo"
+    }
+  },
+  "appearance": {
+    "default": "system",
+    "strict": false
+  },
+  "metadata": {
+    "timestamp": true
+  },
+  "navigation": {
+    "languages": [
+      {
+        "language": "en",
+        "groups": [
+          {
+            "group": "ISOC Labs",
+            "pages": [
+              "index",
+              "choose-project",
+              "projects",
+              "project-map",
+              "principles"
+            ],
+            "icon": "grid-2"
+          },
+          {
+            "group": "Product Pages",
+            "pages": [
+              "products/stellar-appliance-cli",
+              "products/stellar-data-exporter",
+              "products/stellar-data-exporter-guide",
+              "products/xdr-lab-appliance",
+              "products/parser-studio",
+              "products/ai-assisted-attack-detection-rules",
+              "products/stellar-custom-threat-intelligence"
+            ],
+            "icon": "box"
+          }
+        ]
+      },
+      {
+        "language": "ko",
+        "groups": [
+          {
+            "group": "ISOC Labs",
+            "pages": [
+              "ko/index",
+              "ko/choose-project",
+              "ko/projects",
+              "ko/project-map",
+              "ko/principles"
+            ],
+            "icon": "grid-2"
+          },
+          {
+            "group": "제품 상세",
+            "pages": [
+              "ko/products/stellar-appliance-cli",
+              "ko/products/stellar-data-exporter",
+              "ko/products/stellar-data-exporter-guide",
+              "ko/products/xdr-lab-appliance",
+              "ko/products/parser-studio",
+              "ko/products/ai-assisted-attack-detection-rules",
+              "ko/products/stellar-custom-threat-intelligence"
+            ],
+            "icon": "box"
+          }
+        ]
+      }
+    ]
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://xdr.ooo"
+  },
+  "favicon": "/favicon.svg",
+  "redirects": [
+    {
+      "source": "/products/openxdr-kvm-installer",
+      "destination": "https://kvm.xdr.ooo/",
+      "permanent": true
+    },
+    {
+      "source": "/ko/products/openxdr-kvm-installer",
+      "destination": "https://kvm.xdr.ooo/ko",
+      "permanent": true
+    },
+    {
+      "source": "/downloads/local-web-attack-ai-v1.0-333.rules",
+      "destination": "https://github.com/xdr-labs/xdr-labs-portal/releases/download/v1.0/local-web-attack-ai-v1.0-333.rules",
+      "permanent": false
+    },
+    {
+      "source": "/downloads/local-web-attack-ai-v1.0-333.zip",
+      "destination": "https://github.com/xdr-labs/xdr-labs-portal/releases/download/v1.0/local-web-attack-ai-v1.0-333.zip",
+      "permanent": false
+    }
+  ]
+}

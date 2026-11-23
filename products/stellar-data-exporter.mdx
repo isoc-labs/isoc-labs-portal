@@ -1,0 +1,134 @@
+---
+title: "Stellar Data Exporter"
+description: "Browser-based Stellar Cyber raw-data query and export utility with Root Scope and User Scope authentication."
+---
+
+# Stellar Data Exporter
+
+Stellar Data Exporter is a Web UI for querying Stellar Cyber raw data, previewing the result, and exporting it to browser download, S3-compatible object storage, or SFTP.
+
+It is useful when an analyst or engineer needs repeatable exports across multiple Stellar Cyber data sources without building a new API script for every request.
+
+## Use the live service now
+
+**Stellar Data Exporter is not a demo.** The hosted service below is a live, ready-to-use service that you can open and use immediately without installing the exporter locally.
+
+- **Service:** [https://exporter.xdr.ooo](https://exporter.xdr.ooo)
+- **Username:** `stellar`
+- **Password:** `stellar`
+
+After signing in, enter your own Stellar Cyber Host and Root Scope or User Scope API credential, run **Test connection**, select one Tenant, and start with Preview.
+
+<Note>
+  The shared Exporter account authenticates access to the Exporter service. It is separate from your Stellar Cyber API credential, which you still provide inside the Exporter for querying your own Stellar Cyber data.
+</Note>
+
+## What it provides
+
+- shared HTTP Basic login for access to the exporter UI/API
+- Root Scope authentication with account email + All-Access Token
+- User Scope authentication with a User API Key
+- automatic discovery of accessible Stellar Cyber tenants and required single-tenant selection
+- required one-or-more Data Source selection, with Alerts selected by default and internal Stellar Cyber index mapping
+- explicit start/end time selection
+- Elasticsearch DSL for Root Scope and Stellar Cyber/Lucene Query for Root Scope or User Scope
+- query preview before export
+- count-only export preflight with elapsed-time feedback and explicit confirmation for large matches
+- CSV, JSON Array, and NDJSON output
+- browser download, S3-compatible storage, and SFTP destinations
+- field selection, record limits, gzip, and file splitting
+- adaptive time slicing for large export windows
+- immutable active-job summary, locked run configuration, current/expected record progress with percentage, cancellation, persistent sanitized history, and supported retry/resume
+- saved non-secret profiles and query history/favorites
+- optional scheduled S3/SFTP exports
+
+## Normal workflow
+
+```mermaid
+flowchart LR
+  A[Log in to Exporter] --> B[Connect to Stellar Cyber]
+  B --> C[Select one tenant]
+  C --> D[Select data sources and time]
+  D --> E[Enter query]
+  E --> F[Preview]
+  F --> G[Choose output]
+  G --> H[Run export]
+  H --> I[Count preflight]
+  I --> J[Confirm if large]
+  J --> K[Export]
+```
+
+## Credential modes
+
+| Mode | Required input | Query behavior |
+| --- | --- | --- |
+| **Root Scope** | Account email + All-Access Token | Elasticsearch DSL or Stellar Cyber Query |
+| **User Scope** | User API Key | Stellar Cyber Query is selected for raw-data query/export |
+
+Both credential types are exchanged for a short-lived Stellar Cyber access token before raw-data requests are sent.
+
+After **Test connection**, the exporter loads the tenants visible to that credential. Select exactly one tenant before Preview or Export. The backend injects the selected tenant into every raw-data query, so Preview, count checks, manual exports, resume, and schedules stay within that tenant.
+
+<Note>
+  User Scope API Key mode supports raw-data search and export through **Stellar Cyber Query (Lucene)**. Elasticsearch DSL is intentionally disabled for User Scope and is available only with **Root Scope**. A User API Key can still expose multiple tenants depending on its effective Stellar Cyber permissions, so tenant selection is always required.
+</Note>
+
+## Output destinations
+
+<CardGroup cols={3}>
+  <Card title="Browser download" icon="download">
+    Export CSV, JSON, or NDJSON directly to the browser. The complete file is prepared before download starts, and split browser exports can be delivered as a ZIP.
+  </Card>
+  <Card title="S3-compatible" icon="cloud">
+    Send output to AWS S3, Cloudflare R2, MinIO, or another supported S3-compatible endpoint.
+  </Card>
+  <Card title="SFTP" icon="arrow-right-arrow-left">
+    Send output over SFTP with password or SSH private-key authentication, with SHA256 host-key discovery and explicit key pinning.
+  </Card>
+</CardGroup>
+
+## Basic vs Advanced
+
+**Basic mode** keeps the normal workflow focused on data sources, time, query, output, and destination.
+
+**Advanced mode** exposes additional controls such as:
+
+- selected export fields
+- record limit
+- CSV delimiter/header/BOM behavior
+- gzip compression
+- maximum file size and split files
+- adaptive slicing controls
+- overlap policy
+- TLS verification, S3 path-style addressing, and SFTP host-key verification
+- saved profiles, query history, export history, and scheduling controls
+
+## Security boundary
+
+- the UI and API require HTTP Basic authentication; `/api/health` remains available for health checks
+- the hosted service currently uses the shared Exporter login `stellar / stellar`
+- self-hosted installs use the same default login and can override it with `STELLAR_EXPORTER_UI_USERNAME` and `STELLAR_EXPORTER_UI_PASSWORD`
+- direct self-hosted runs bind HTTPS to `0.0.0.0:8787` by default, so users on allowed networks connect with `https://<exporter-host-ip>:8787`; restrict TCP/8787 with the host firewall as needed
+- after connection, exactly one accessible Stellar Cyber tenant must be selected and the backend enforces that tenant on raw-data queries
+- interactive credentials are not written into persistent job history
+- **Remember this session** stores the interactive Stellar Cyber Host/Auth/Credential/TLS/Tenant only in browser `sessionStorage`; it survives refresh in that browser session but is not stored on the Exporter server or shared with another browser/device
+- **Forget session** removes that temporary browser copy and clears the visible connection/tenant state
+- when an interactive export starts, every export-affecting control is locked until the job completes, fails, or is cancelled; refreshing the same browser session reconnects to the active job and preserves the lock
+- browser-saved profiles exclude credentials and destination secrets
+- scheduled export configurations, including required credentials, are encrypted at rest
+- TLS verification is enabled by default
+- the shared Basic Auth gate is not a per-user authorization or multi-user isolation layer
+- the Stellar Cyber **Host** value is reached from the exporter server, not from the user's browser
+- the development Uvicorn listener should not be exposed directly to the public Internet
+- if Nginx or another reverse proxy publishes the exporter, keep authentication enabled and restrict the outbound Stellar Cyber targets the exporter is allowed to reach
+
+For hardened Nginx/systemd deployment guidance, use the production runbook in the source repository.
+
+<CardGroup cols={2}>
+  <Card title="User Guide" icon="book-open" href="/products/stellar-data-exporter-guide">
+    Follow Basic workflows and Advanced scenario guides for Query Inspector, field selection, large exports, remote destinations, schedules, and troubleshooting.
+  </Card>
+  <Card title="Source Repository" icon="github" href="https://github.com/xdr-labs/stellar-data-exporter">
+    Review the implementation, tests, production runbook, and current release state.
+  </Card>
+</CardGroup>

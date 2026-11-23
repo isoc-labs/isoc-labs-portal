@@ -1,0 +1,612 @@
+---
+title: "Stellar Data Exporter 사용 설명서"
+description: "실제 업무 시나리오를 따라 Stellar Cyber 원시 데이터를 조회하고 내보내는 방법을 설명합니다."
+---
+
+# Stellar Data Exporter 사용 설명서
+
+Stellar Data Exporter는 기능을 하나씩 배우는 것보다 **지금 하려는 작업과 비슷한 시나리오를 골라 그대로 따라하는 방식**이 가장 쉽습니다.
+
+아래에서 목적에 맞는 시나리오를 선택하세요.
+
+## 시작하기 전에
+
+### Hosted Service 바로 사용하기
+
+**이 서비스는 데모가 아니라 실제로 바로 사용할 수 있는 서비스입니다.** Exporter를 로컬에 설치할 필요가 없습니다.
+
+다음 주소를 Browser에서 엽니다.
+
+[https://exporter.xdr.ooo](https://exporter.xdr.ooo)
+
+로그인 정보:
+
+- **Username:** `stellar`
+- **Password:** `stellar`
+
+이 로그인은 Exporter 화면에 접속하기 위한 계정입니다. 실제 데이터를 조회하려면 화면에서 자신의 Stellar Cyber Host와 Root Scope 또는 User Scope API Credential을 별도로 입력해야 합니다.
+
+### 선택 사항: 직접 설치해서 사용하기
+
+개발 환경이나 Private/Self-Hosted 배포가 필요한 경우에만 다음 절차를 사용합니다.
+
+```bash
+git clone https://github.com/xdr-labs/stellar-data-exporter.git
+cd stellar-data-exporter
+uv sync --frozen
+uv run stellar-data-exporter
+```
+
+로컬 실행도 HTTPS가 자동으로 활성화되며 기본적으로 `0.0.0.0:8787`에 Bind합니다. 최초 실행 시 지속적으로 재사용할 Self-Signed 인증서를 자동 생성합니다.
+
+Exporter가 설치된 Host에서는 `https://localhost:8787`을 열고, 같은 네트워크에서 접근이 허용된 다른 PC에서는 별도 `--host` 옵션 없이 `https://<exporter-host-ip>:8787`로 접속합니다. 예를 들어 Exporter Host IP가 `192.168.1.50`이면 `https://192.168.1.50:8787`을 사용합니다.
+
+로컬 인스턴스도 Hosted Service와 동일한 기본 Exporter Login을 사용합니다. Self-Signed 인증서이므로 Browser에서 최초 인증서 경고가 표시될 수 있습니다. 자동 생성 인증서에는 localhost, Server Hostname, 감지된 Local IP가 포함됩니다. Host Firewall에서는 Exporter를 사용할 네트워크에만 TCP/8787 Inbound를 허용하세요.
+
+처음에는 **Basic** Mode로 시작하세요. 각 시나리오에서 필요한 경우에만 **Advanced** Mode로 전환합니다.
+
+### 공통 연결 및 Tenant 선택
+
+모든 시나리오에서 먼저 다음 절차를 수행합니다.
+
+1. Stellar Cyber Host를 입력합니다.
+2. Credential Type을 선택합니다.
+   - **Root Scope** → Account Email + All-Access Token
+   - **User Scope** → User API Key
+3. **Test connection**을 실행합니다.
+4. 해당 Credential로 접근 가능한 Tenant 목록이 표시됩니다.
+5. Query 대상 **Tenant를 정확히 하나 선택**합니다. Preview, Count Check, Manual Export, Resume, Schedule은 모두 이 Tenant로 제한됩니다.
+6. **Data Source를 최소 1개 이상 선택**합니다. 기본값은 Alerts이며, 마지막으로 남은 Source는 해제할 수 없습니다. **Alerts only**를 누르면 Alerts 1개 선택 상태로 되돌아갑니다.
+7. Credential에 맞는 Query Mode를 사용합니다.
+   - **Root Scope** → Elasticsearch DSL 또는 Stellar Cyber Query
+   - **User Scope** → Stellar Cyber Query (Lucene)만 사용하며 Elasticsearch DSL은 비활성화되고 **Root Scope 전용**으로 표시됩니다.
+8. Host, Credential, Auth Mode, TLS 설정을 바꾸면 기존 Tenant 선택이 무효화되므로 **Test connection**을 다시 실행하고 Tenant를 재선택합니다.
+9. 새로고침 후에도 현재 연결을 유지하려면 **Remember this session**을 누릅니다. Host, 인증 정보, TLS 설정, Tenant는 현재 브라우저 세션에만 임시 저장됩니다. Exporter 서버의 공용 설정으로 저장되지 않으며 다른 브라우저나 PC에서는 보이지 않습니다. 임시 저장값을 지우려면 **Forget session**을 사용합니다.
+
+### Run export를 누르면 실제로 일어나는 일
+
+**Run export를 누르면 먼저 현재 설정을 고정합니다.** 내보내기에 영향을 주는 연결/Tenant, Data Source, 시간 범위, Query, 출력 옵션, Destination, Basic/Advanced 전환은 모두 `LOCKED` 상태가 됩니다. 그 다음 고정된 조건으로 전체 건수를 먼저 확인한 뒤 실제 Export Job을 시작합니다.
+
+- Count Preflight에는 경과시간이 표시되어 수분 걸리는 Count도 멈춘 것처럼 보이지 않습니다.
+- `0건`이면 Export Job을 만들지 않고 설정 Lock을 해제합니다.
+- 일반적인 크기라면 Count를 보여준 뒤 Export를 시작합니다.
+- 결과가 크면 실제 Job 생성 전에 성능 저하 경고를 표시합니다.
+- **Go back and refine**을 선택하면 Job을 만들지 않고 설정 Lock을 해제합니다.
+- 정말 필요하면 **Export anyway**를 선택해야 실제 Export가 시작됩니다.
+- 기본 Warning 기준은 100,000건, Critical 기준은 1,000,000건이며 배포 환경에서 변경할 수 있습니다.
+
+Job이 시작되면 **Export Summary에는 실행 시점에 고정된 설정**이 표시됩니다. Browser Download, S3, SFTP 모두 처리 건수를 `현재 / 예상`과 진행률로 보여줍니다. 예상 총건수는 인증 정보나 원본 Query를 제외한 Job 메타데이터에 저장되므로 API가 재시작되어도 진행률 기준을 유지할 수 있습니다. 같은 브라우저 세션에서 새로고침하면 실행 중인 Job에 다시 연결되고, 완료·실패·취소될 때까지 설정은 잠긴 상태로 유지됩니다.
+
+Browser Download는 전체 파일을 서버에서 먼저 완성한 뒤 Browser Transfer를 시작합니다. 파일 생성 중에는 **Transferred**가 `0 B` 대신 **Preparing…**으로 표시될 수 있으며, 파일이 준비되면 최종 Byte가 표시되고 Download가 시작됩니다.
+
+<Warning>
+  **Record Limit**은 최종 내보내기 건수만 제한합니다. 사전 건수 확인은 원본 Query 전체를 대상으로 하므로 여러 Data Source에서 넓은 범위를 조회하면 Record Limit이 작아도 검색 부하는 클 수 있습니다.
+</Warning>
+
+---
+
+## Advanced Mode — 실전 시나리오로 사용하는 방법
+
+Advanced Mode는 모든 옵션을 항상 설정하는 화면이 아닙니다. **Basic에서 Query와 Preview를 먼저 확인한 뒤, 아래 목적이 있을 때만 Advanced를 켜는 방식**이 가장 쉽습니다.
+
+| 지금 하려는 일 | Advanced에서 볼 곳 |
+| --- | --- |
+| 실제로 어떤 API 요청이 나가는지 확인 | Query Inspector → Request / Query / Copy tools |
+| 보고서에 필요한 Column만 Export | Export Fields |
+| 대용량 Export의 크기와 File 수를 계획 | Statistics + Export Plan |
+| Browser 대신 S3/R2/SFTP로 전송 | Destination + File Split + gzip |
+| 같은 Export를 반복 실행 | Scheduled Export |
+| Preview/Export 결과가 예상과 다름 | Query Inspector 전체 |
+
+<Note>
+  Advanced Mode에서도 기본 원칙은 같습니다. **Tenant → Data Source → Time → Query → Preview**를 먼저 확정하고, 그 다음 Advanced 옵션을 조정하세요.
+</Note>
+
+### Advanced 시나리오 A — 실제로 어떤 Query가 전송되는지 검증하기
+
+다음과 같은 상황에서 사용합니다.
+
+> “내가 입력한 Query에 Tenant와 Time Range가 실제로 어떻게 적용되는지 확인하고 싶습니다.”
+
+1. Basic에서 Tenant, Data Source, Time Range, Query를 설정하고 **Preview 100 records**를 실행합니다.
+2. **Advanced**로 전환합니다.
+3. **Query Inspector → Request**에서 다음을 확인합니다.
+   - **Final endpoint**: 실제 호출되는 Stellar Cyber endpoint
+   - **Request path**: `/connect/api/data/.../_search` 형태의 API path
+   - **Resolved indices**: 선택한 Data Source가 어떤 Index pattern으로 변환됐는지
+4. **Query**에서 최종 Effective Query를 확인합니다. UI가 관리하는 Tenant/Time Filter가 포함되어 있어야 합니다.
+5. 외부에서 분석하거나 재현해야 하면 Copy tools를 사용합니다.
+   - **Copy DSL**: Tenant/Time Filter까지 적용된 최종 Query JSON 복사
+   - **Copy request path**: API path와 Index pattern만 복사
+   - **Copy cURL**: Terminal에서 재현할 수 있는 cURL 예제 복사. Token/Credential은 Redacted 상태로 유지
+
+**언제 유용한가:** Query가 예상보다 넓거나 좁을 때, 개발자에게 재현 정보를 전달할 때, API 동작을 확인할 때 사용합니다.
+
+### Advanced 시나리오 B — 필요한 Column만 골라 보고서 만들기
+
+다음과 같은 상황에서 사용합니다.
+
+> “Raw Record에는 Field가 수백 개 있지만 보고서에는 timestamp, tenantid, event_name만 필요합니다.”
+
+1. 먼저 **Preview**를 실행합니다. Export Fields는 Preview에서 발견된 Field를 기준으로 만들어집니다.
+2. **Advanced → Export Fields**로 이동합니다.
+3. Field가 많으면 Search에서 이름을 검색합니다.
+4. **Clear**로 전체 선택을 해제한 뒤 필요한 Field만 체크합니다.
+5. 위/아래 이동 버튼으로 Export Column 순서를 정합니다.
+6. **Query Inspector → Export Plan → Selected fields**에서 선택 개수와 순서를 다시 확인합니다.
+7. CSV를 선택했다면 실제 CSV Header도 이 순서를 따릅니다.
+8. **Run export** 후 Count Preflight를 확인하고 진행합니다.
+
+<Tip>
+  Field를 줄이면 파일이 작아질 뿐 아니라 **Estimated output size / Estimated output files**도 선택한 Field를 반영해 다시 계산됩니다.
+</Tip>
+
+### Advanced 시나리오 C — 대용량 Export 전에 크기와 File 수 계획하기
+
+다음과 같은 상황에서 사용합니다.
+
+> “이 Query가 너무 큰지, 몇 개 File로 나뉠지 Export 전에 알고 싶습니다.”
+
+1. **Preview**를 실행합니다.
+2. **Query Inspector → Statistics**에서 다음을 봅니다.
+   - **Matched records**: Query 전체 Matching Count
+   - **Preview latency**: Preview 요청 응답 시간
+   - **Preview bytes**: Preview Sample 크기
+   - **Estimated output size**: 현재 Field 선택과 Record Limit을 반영한 예상 Export 크기
+3. **Export Plan**에서 다음을 확인합니다.
+   - **Export limit**
+   - **Target records/query**
+   - **Estimated slices**
+   - **Max file size**
+   - **Estimated output files**
+   - **Overlap policy**
+4. 결과가 너무 크면 먼저 Time Range/Query를 좁힙니다.
+5. 필요한 경우 **Record Limit**을 사용하고, 큰 파일은 **Max file size**를 지정해 Split합니다.
+6. 전송량을 줄이고 싶으면 **gzip**을 Enable합니다.
+
+<Warning>
+  Estimated size와 Estimated files는 Preview Sample을 사용한 **계획용 추정치**입니다. 실제 Record 크기 분포에 따라 최종 값은 달라질 수 있습니다. 또한 Record Limit은 최종 출력 건수를 제한하지만 Count Preflight의 원본 Search 범위를 줄이지는 않습니다.
+</Warning>
+
+### Advanced 시나리오 D — 큰 결과를 S3/R2/SFTP로 직접 보내기
+
+다음과 같은 상황에서 사용합니다.
+
+> “수 GB 데이터를 Browser로 받지 말고 Object Storage나 SFTP로 바로 보내고 싶습니다.”
+
+1. Preview와 Export Plan으로 결과 크기를 먼저 확인합니다.
+2. 필요하면 Field 선택, gzip, Max file size를 설정합니다.
+3. Destination을 선택합니다.
+   - **S3-compatible**: AWS S3, Cloudflare R2, MinIO 등
+   - **SFTP**: Password 또는 Private Key 인증
+4. Destination 정보를 입력합니다.
+   - 새로운 SFTP Host라면 **Get host key**를 누릅니다.
+   - 화면의 **SHA256 Fingerprint**를 SFTP 서버 관리자가 별도의 신뢰 가능한 경로로 제공한 값과 비교합니다.
+   - 일치하면 **Trust this host key**를 누릅니다.
+   - 그 다음 **Test destination**을 실행합니다. Password/Private Key 인증은 Host Key 검증이 성공한 뒤 진행됩니다.
+5. **Run export**를 누르고 Count Preflight를 확인합니다.
+6. 대용량 경고가 나오면 Tenant/Time/Query가 의도한 범위인지 다시 확인한 뒤 필요한 경우에만 **Export anyway**를 선택합니다.
+7. 실행 중에는 `Records 현재 / 예상`, Percentage, Bytes, Files, Partition/Query/Retry Counter, Adaptive Splits를 확인합니다. 실행 설정은 Job Snapshot에 Lock되어 변경할 수 없습니다.
+
+### Advanced 시나리오 E — 같은 Export를 반복 실행하도록 Schedule 만들기
+
+다음과 같은 상황에서 사용합니다.
+
+> “매시간 새로운 Alert를 S3로 보내고 싶습니다.”
+
+1. 먼저 동일 설정으로 **Manual Export를 한 번 성공**시킵니다.
+2. Destination은 **S3 또는 SFTP**여야 합니다. Browser Download는 Schedule 대상이 아닙니다.
+3. **Advanced → Scheduled Export**에서 Name, Interval, Export Window를 설정합니다.
+4. Save한 뒤 **Run now**로 즉시 한 번 검증합니다.
+5. 정상 동작하면 Enabled 상태로 둡니다.
+6. Schedule에는 선택 Tenant와 실행에 필요한 Credential이 암호화되어 저장됩니다.
+
+### Advanced 시나리오 F — 결과가 이상할 때 원인을 찾기
+
+다음 순서로 확인하면 대부분의 문제를 빠르게 좁힐 수 있습니다.
+
+1. 선택한 **Tenant**가 맞는지 확인합니다.
+2. **Resolved indices**가 의도한 Data Source와 맞는지 확인합니다.
+3. Effective Query에서 **Tenant Filter와 Time Filter**가 예상대로 들어갔는지 확인합니다.
+4. **Matched records**가 너무 크면 Query 또는 Time Range를 줄입니다.
+5. Selected fields와 Export limit이 의도한 값인지 확인합니다.
+6. File Split을 사용한다면 Estimated output size/files를 확인합니다.
+7. 외부에서 재현이 필요하면 **Copy DSL / Copy request path / Copy cURL**을 사용합니다.
+8. 설정을 변경한 뒤에는 **Preview를 다시 실행**해서 Statistics를 갱신한 후 Export합니다.
+
+---
+
+## 시나리오 1 — 최근 1시간 Alert를 CSV로 받기
+
+다음과 같은 요청을 받았을 때 사용합니다.
+
+> “최근 1시간 Alert를 CSV 파일로 주세요.”
+
+### 따라하기
+
+1. 위의 **공통 연결 및 Tenant 선택**을 완료합니다.
+2. Data Source에서 **Alerts**를 선택합니다.
+3. Time Range에서 **1h** 버튼을 선택합니다.
+4. Query에는 다음을 사용합니다.
+
+```text
+*:*
+```
+
+5. **Preview 100 records**를 실행합니다.
+6. 원하는 Alert와 선택한 Tenant가 맞는지 확인합니다.
+7. Output을 **CSV**로 선택합니다.
+8. Destination을 **Download**로 선택합니다.
+9. **Run export**를 실행합니다.
+10. Count Preflight의 건수를 확인합니다. 대용량 경고가 나오면 Time/Query를 줄이거나 정말 필요한 경우에만 **Export anyway**를 선택합니다.
+
+### 결과
+
+선택한 최근 1시간 Alert가 CSV 파일로 Download됩니다. Browser Download는 서버에서 파일 생성을 완전히 끝내고 Job을 Completed로 만든 다음 고정된 Content-Length로 다운로드를 시작합니다. 따라서 Export 생성 중 Browser가 0-byte Placeholder를 먼저 확정하는 문제를 방지합니다.
+
+<Tip>
+  설치 후 첫 테스트는 이 시나리오가 가장 좋습니다. 먼저 짧은 시간 범위로 Preview를 확인한 뒤 더 큰 Export를 진행하세요.
+</Tip>
+
+---
+
+## 시나리오 2 — User API Key로 원하는 Raw Data 찾기
+
+**User Scope API Key**를 가지고 있고 Raw Data를 직접 검색하려는 경우입니다.
+
+예:
+
+> “최근 24시간 중 New 상태 Event만 찾아주세요.”
+
+### 따라하기
+
+1. **공통 연결 및 Tenant 선택**에서 **User Scope**를 선택하고 User API Key를 입력한 뒤 **Test connection**을 실행해 Tenant 하나를 선택합니다.
+2. Data Source에서 예를 들어 **Alerts**를 선택합니다.
+3. **24h** 버튼을 선택합니다.
+4. **Stellar Cyber Query**에 다음을 입력합니다.
+
+```text
+event_status:New
+```
+
+5. **Preview 100 records**를 실행합니다.
+6. Sample Record와 선택한 Tenant가 맞는지 확인합니다.
+7. **JSON** 또는 **CSV**를 선택합니다.
+8. Destination은 **Download**를 선택합니다.
+9. **Run export**를 실행합니다.
+10. 실제 Job이 시작되기 전에 표시되는 Count Preflight를 확인합니다.
+
+### 결과
+
+User API Key를 사용해 Raw Data를 검색하고 Query와 Time Range에 해당하는 결과만 Export합니다.
+
+<Note>
+  User Scope는 Account Email이 필요하지 않습니다. Stellar Cyber Query Mode가 자동으로 선택됩니다.
+</Note>
+
+---
+
+## 시나리오 3 — 특정 네트워크의 Login Failure 조사하기
+
+Incident Investigation 중 범위를 좁혀서 데이터를 받고 싶을 때 사용합니다.
+
+예:
+
+> “오늘 10.10.10.0/24에서 발생한 Login Failure만 보고 싶습니다.”
+
+### 따라하기
+
+1. **공통 연결 및 Tenant 선택**을 완료하고 조사할 Tenant를 선택합니다.
+2. 조사할 Data Source를 선택합니다.
+   - Windows Events
+   - Linux Events
+   - Alerts
+3. 조사할 Start/End Time을 선택합니다.
+4. Stellar Cyber Query에 예를 들어 다음을 입력합니다.
+
+```text
+event_name:"Login Failure" AND srcip:10.10.10.*
+```
+
+5. **Preview 100 records**를 실행합니다.
+6. 다음 항목을 확인합니다.
+   - Timestamp
+   - Source IP
+   - Event Name
+   - 전체 Matching Count
+7. Preview가 **0건**이면 예제 값이 현재 환경에 없는 것일 수 있습니다. 먼저 `*:*`로 Preview한 뒤 실제 데이터에 존재하는 `event_name`, `srcip` 값을 확인하고 그 값으로 조건을 다시 만드세요.
+8. 결과가 너무 많으면 조건을 하나 더 추가합니다.
+9. 원하는 데이터가 맞으면 **CSV**를 선택합니다.
+10. **Run export**를 실행하고 Count Preflight를 확인합니다.
+
+### 결과
+
+전체 Raw Data를 먼저 내려받지 않고 실제 조사에 필요한 Record만 받을 수 있습니다.
+
+---
+
+## 시나리오 4 — 여러 Data Source를 한 번에 JSON으로 Export하기
+
+같은 Incident 시간대의 여러 Source를 함께 수집할 때 사용합니다.
+
+예:
+
+> “같은 시간대의 Alerts, Traffic, Windows Events를 같이 모아주세요.”
+
+### 따라하기
+
+1. **공통 연결 및 Tenant 선택**을 완료하고 Incident 대상 Tenant를 선택합니다.
+2. Data Source에서 다음을 같이 선택합니다.
+   - **Alerts**
+   - **Traffic**
+   - **Windows Events**
+3. 처음에는 짧은 Incident **Start** / **End** Time으로 시작합니다.
+4. Incident에 필요한 조건으로 Query 범위를 충분히 좁힙니다.
+5. **Preview 100 records**를 실행하고 **Matched records**를 확인합니다.
+6. 예상보다 건수가 크면 Export하기 전에 Time Range를 더 줄이거나 Query 조건을 좁힙니다.
+7. **Advanced**로 전환한 뒤 **Query Inspector**에서 **Resolved indices**와 Effective Query를 확인합니다.
+8. Output은 **JSON**을 선택합니다.
+9. 결과가 충분히 작을 때만 **Download**를 사용합니다. 결과가 크면 S3-Compatible Storage 또는 SFTP를 사용하세요.
+10. **Run export**를 실행합니다. Exporter가 선택 Tenant의 전체 Query Count를 다시 확인합니다.
+11. 대용량 경고가 표시되면 의도한 작업이 아니라면 **Go back and refine**으로 돌아가 Time/Query 범위를 줄입니다.
+
+### 결과
+
+선택한 여러 Source Family를 동일한 Time Range와 Query로 조회한 결과를 하나의 Export로 받을 수 있습니다.
+
+<Warning>
+  넓은 시간 범위에서 여러 Data Source에 `*:*`를 그대로 적용하지 마세요. 특히 Traffic 데이터는 조회 건수가 매우 커질 수 있습니다. 데이터 양이 많으면 Stellar Cyber와 Exporter 모두에 부하가 생겨 **성능이 저하될 수 있습니다.** **Record Limit**은 최종 내보내기 건수만 제한하므로 원본 검색 자체의 부하를 줄여주지는 않습니다. Preview에서 조회 건수가 매우 크다면 시간 범위를 줄이거나 Query 조건을 추가하고, 브라우저 다운로드보다 S3/SFTP를 사용하는 것이 좋습니다.
+</Warning>
+
+<Tip>
+  한 Source의 데이터가 너무 많다면 먼저 Source별로 Preview한 뒤 Multi-Source Export를 실행하세요.
+</Tip>
+
+---
+
+## 시나리오 5 — 보고서에 필요한 Field만 CSV로 받기
+
+Raw Record의 Field가 너무 많고 보고서에 필요한 값만 받고 싶을 때 사용합니다.
+
+예:
+
+> “timestamp, source IP, destination IP, event name, severity만 필요합니다.”
+
+### 따라하기
+
+1. **공통 연결 및 Tenant 선택**을 완료합니다.
+2. Query를 작성하고 **Preview**를 먼저 실행합니다.
+3. **Advanced**로 전환합니다.
+4. Field Selector에서 필요한 Field만 선택합니다.
+5. Output은 **CSV**를 선택합니다.
+6. **Header**는 Enabled 상태로 둡니다.
+7. **Run export**를 실행하고 Count Preflight를 확인합니다.
+
+### 결과
+
+Excel이나 다른 팀에 전달하기 쉬운 최소 Field CSV를 받을 수 있습니다.
+
+---
+
+## 시나리오 6 — 7일치 데이터를 S3 또는 Cloudflare R2로 보내기
+
+Browser Download로 받기에는 데이터가 크거나 Object Storage로 바로 전달해야 할 때 사용합니다.
+
+예:
+
+> “7일치 Alerts를 R2 Bucket으로 Export하세요.”
+
+### 따라하기
+
+1. **공통 연결 및 Tenant 선택**을 완료합니다.
+2. **Alerts**를 선택합니다.
+3. **7d** 버튼을 선택하거나 정확한 Start/End Time을 지정합니다.
+4. Query를 입력합니다.
+5. 먼저 **Preview**를 실행합니다.
+6. **Advanced**로 전환합니다.
+7. 필요하면:
+   - **gzip** Enable
+   - **Max file size** 설정
+   - 필요한 Field만 선택
+8. Destination에서 **S3-compatible**을 선택합니다.
+9. 다음 값을 입력합니다.
+   - Endpoint URL
+   - Region
+   - Bucket
+   - Prefix
+   - Access Key
+   - Secret Key
+10. Destination Test를 실행합니다.
+11. **Run export**를 실행합니다.
+12. Count Preflight를 확인합니다. 대용량 경고는 실제 Job 생성 전에 표시되며, 정말 필요한 Export일 때만 **Export anyway**를 선택합니다.
+13. Records 현재/예상 / Percentage / Bytes / Files와 상세 Progress Counter를 확인합니다.
+
+### 결과
+
+대용량 결과를 Browser를 거치지 않고 AWS S3, Cloudflare R2, MinIO 등으로 직접 보냅니다.
+
+<Tip>
+  데이터가 매우 크다면 Max File Size를 지정해 여러 Part로 나누는 것이 좋습니다. Preview와 Run export 사이에도 새 Event가 유입될 수 있으므로 최종 Record Count는 Preview Count와 조금 달라질 수 있습니다.
+</Tip>
+
+---
+
+## 시나리오 7 — 큰 Export를 여러 File로 나눠 SFTP 전송하기
+
+외부 시스템이 SFTP로 파일을 받는 환경에서 사용합니다.
+
+예:
+
+> “최근 24시간 데이터를 500 MB씩 나눠 SFTP로 보내세요.”
+
+### 따라하기
+
+1. **공통 연결 및 Tenant 선택**을 완료합니다.
+2. Query를 만들고 **Preview**로 먼저 검증합니다.
+3. **Advanced**로 전환합니다.
+4. Output Format을 선택합니다.
+   - NDJSON
+   - CSV
+5. **Max file size**를 원하는 크기로 설정합니다.
+6. 필요하면 **gzip**을 Enable합니다.
+7. Destination을 **SFTP**로 선택합니다.
+8. 다음 값을 입력합니다.
+   - Host
+   - Port
+   - Username
+   - Password 또는 Private Key
+   - Remote Path
+9. Destination Test를 실행합니다.
+10. **Run export**를 실행하고 Count Preflight를 확인합니다.
+11. 대용량 경고가 나오면 Tenant/Time/Query가 의도한 범위인지 확인한 뒤 필요한 경우에만 진행합니다.
+
+### 결과
+
+Remote Path에 번호가 붙은 여러 File이 생성됩니다. **Max file size**는 byte 단위의 절대 상한이라기보다 Split 목표값이므로, 하나의 Record가 경계를 넘는 경우 Part가 설정값보다 조금 커질 수 있습니다.
+
+지원되는 Split Export가 중단되면 Job History에서 필요한 Credential을 다시 입력한 뒤 Retry/Resume할 수 있습니다.
+
+---
+
+## 시나리오 8 — 기존 Elasticsearch DSL을 그대로 사용하기
+
+이미 사용 중인 Elasticsearch DSL Query가 있고 Root Scope Credential이 있을 때 사용합니다.
+
+예:
+
+> “이 DSL Query를 지정된 시간대에 실행해서 결과를 Export하세요.”
+
+### 따라하기
+
+1. **공통 연결 및 Tenant 선택**에서 **Root Scope**를 선택하고 Account Email + All-Access Token을 입력한 뒤 **Test connection**을 실행해 Tenant 하나를 선택합니다.
+2. Data Source를 선택합니다.
+3. Start/End Time을 설정합니다.
+4. **Elasticsearch DSL**을 선택합니다.
+5. Query를 붙여 넣습니다.
+
+예:
+
+```json
+{
+  "query": {
+    "term": {
+      "event_status": "New"
+    }
+  }
+}
+```
+
+6. **Validate JSON**을 실행합니다.
+7. **Preview 100 records**를 실행합니다.
+8. 결과와 선택한 Tenant가 맞는지 확인합니다.
+9. Output과 Destination을 선택합니다.
+10. **Run export**를 실행하고 Count Preflight를 확인합니다.
+
+### 결과
+
+기존 DSL 조건에 UI에서 선택한 Time Range를 결합해서 Export합니다.
+
+<Note>
+  Elasticsearch DSL은 Account Email + All-Access Token을 사용하는 **Root Scope 전용**입니다. **User Scope API Key**에서는 DSL을 사용할 수 없으므로 시나리오 2의 Stellar Cyber Query를 사용하세요.
+</Note>
+
+---
+
+## 시나리오 9 — 매시간 자동으로 S3/SFTP에 Export하기
+
+같은 Export를 주기적으로 반복해야 할 때 사용합니다.
+
+예:
+
+> “매시간 새로운 Alert 데이터를 S3로 보내세요.”
+
+### 따라하기
+
+1. **공통 연결 및 Tenant 선택**을 완료하고 이 Schedule이 사용할 Tenant를 선택합니다.
+2. 일반 S3/SFTP Export를 한 번 구성합니다.
+3. Manual Export를 실행하고 Count Preflight를 확인한 뒤 실제로 성공하는지 검증합니다.
+4. **Advanced**로 전환합니다.
+5. Schedule을 생성합니다.
+6. 다음을 설정합니다.
+   - Schedule Name
+   - Interval
+   - Export Window
+   - S3 또는 SFTP Destination
+7. Schedule을 저장합니다.
+8. **Run now**로 한 번 검증합니다.
+9. 정상 동작하면 **Enabled** 상태로 둡니다.
+
+선택한 Tenant는 암호화된 Schedule 설정에 함께 저장되며 Schedule의 Overlap/Resume Identity에도 포함됩니다.
+
+### 결과
+
+이전 성공 시점 이후의 연속된 Time Window를 기준으로 정기 Export가 실행됩니다.
+
+<Warning>
+  Scheduled Export는 Credential을 Encrypted At Rest로 저장합니다. 운영 환경에서는 `STELLAR_EXPORTER_SCHEDULE_KEY`에 고정된 Master Key를 설정하세요.
+</Warning>
+
+---
+
+## 시나리오 10 — Preview나 Export 결과가 이상할 때 확인하기
+
+Preview가 비어 있거나 Record Count가 예상과 다르거나 Export가 너무 클 때 사용합니다.
+
+### 따라하기
+
+1. **Test connection**이 성공했고 의도한 Tenant가 선택되어 있는지 확인합니다. Host/API Credential을 바꿨다면 Tenant 목록을 다시 불러와 재선택합니다.
+2. **Advanced**로 전환합니다. **Query Inspector**는 Query 영역 안에 자동으로 표시되며 별도의 Open 버튼은 없습니다.
+3. 일반 Query 설정에서 선택한 Data Source와 Start/End Time을 확인합니다.
+4. **Query Inspector**에서 다음을 확인합니다.
+   - Request Path와 **Resolved indices**
+   - 선택 Tenant/Time Filter가 포함된 Effective Query
+   - **Matched records**, Preview Latency/Bytes, Estimated Output Size
+   - **Export Plan**의 Selected Fields, Export Limit, Adaptive Slicing, Estimated Slices/Files, Max File Size, Overlap Policy
+5. Matched Count 또는 Estimated Output Size가 너무 크면 Time Range를 줄입니다.
+6. Preview를 다시 실행합니다.
+7. Query 조건을 하나씩 추가합니다.
+8. Preview 결과가 맞을 때만 **Run export**를 누르고, 새로 계산된 Count Preflight를 확인한 뒤 진행합니다.
+
+### 자주 해결되는 방법
+
+| 문제 | 먼저 해볼 것 |
+| --- | --- |
+| Exporter Login이 반복됨 | 배포 관리자가 설정한 Exporter HTTP Basic Login을 다시 확인 |
+| Stellar Authentication failed | Root/User Scope 선택과 입력한 Stellar Cyber Credential Type이 맞는지 확인 |
+| Tenant Selector가 Disabled | **Test connection**을 다시 실행. Host/API Credential 변경 시 기존 Tenant 선택은 무효화됨 |
+| Preview가 0건 | Tenant를 먼저 확인한 뒤 Time Range를 넓히거나 Query를 단순화 |
+| 결과가 너무 많음 | Run export 전에 Time Range를 줄이거나 Query Condition 추가 |
+| 대용량 경고가 표시됨 | 새 Count를 확인하고 의도한 대용량 작업이 아니면 **Go back and refine** 선택 |
+| Elasticsearch DSL이 Disabled | User Scope이므로 Stellar Cyber Query 사용 |
+| Browser Export가 너무 큼 | S3/SFTP, gzip, Field 선택, File Split 사용 |
+| SFTP에서 Host Key를 신뢰하지 않는다고 표시 | **Get host key**로 SHA256 Fingerprint를 확인하고 별도 경로로 검증한 뒤 **Trust this host key** 선택 |
+| S3/SFTP 실패 | Destination Test 후 Credential/Path 설정 재확인 |
+| Export 실행 중 설정을 바꿀 수 없음 | 정상 동작입니다. 실행 Job Snapshot 보호를 위해 Lock된 상태이므로 완료를 기다리거나 Cancel하세요. 같은 Browser Session에서 새로고침하면 실행 중 Job에 다시 연결됩니다 |
+| Browser Download의 Transferred가 `Preparing…`으로 표시됨 | 서버에서 전체 Download File을 생성 중입니다. Staging이 끝나면 최종 Byte와 Browser Download가 표시됩니다 |
+| Stellar 연결이 일시적으로 끊김 | Preview/Count/Export가 Network 오류, HTTP 408/429, HTTP 5xx를 Exponential Backoff로 자동 재시도하며 지속적인 장애만 오류로 표시 |
+
+---
+
+## 어떤 시나리오부터 보면 되나요?
+
+| 목적 | 시나리오 |
+| --- | --- |
+| 가장 간단한 1회성 Export | 시나리오 1 |
+| User API Key 사용 | 시나리오 2 |
+| Incident 조사 | 시나리오 3 |
+| 여러 Source를 한 번에 수집 | 시나리오 4 |
+| 필요한 Field만 보고서로 Export | 시나리오 5 |
+| 대용량 S3/R2 Export | 시나리오 6 |
+| 대용량 SFTP Delivery | 시나리오 7 |
+| 기존 Elasticsearch DSL 사용 | 시나리오 8 |
+| 정기 자동 Export | 시나리오 9 |
+| 결과가 이상할 때 Troubleshooting | 시나리오 10 |
+
+<CardGroup cols={2}>
+  <Card title="제품 개요" icon="box" href="/ko/products/stellar-data-exporter">
+    제품 범위와 주요 기능을 확인합니다.
+  </Card>
+  <Card title="GitHub Repository" icon="github" href="https://github.com/xdr-labs/stellar-data-exporter">
+    Source, Test, Production Deployment Template 및 Issue를 확인합니다.
+  </Card>
+</CardGroup>
