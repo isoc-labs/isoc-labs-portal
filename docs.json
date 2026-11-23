@@ -122,22 +122,22 @@
     },
     {
       "source": "/downloads/local-web-attack-ai-v1.0-333.rules",
-      "destination": "https://github.com/xdr-labs/xdr-labs-portal/releases/download/v1.0/local-web-attack-ai-v1.0-333.rules",
+      "destination": "https://raw.githubusercontent.com/isoc-labs/isoc-labs-portal/db172b91ac56bc0051cea7ad1e077b6e28b58e17/downloads/local-web-attack-ai-v1.0-333.rules",
       "permanent": false
     },
     {
       "source": "/downloads/local-web-attack-ai-v1.0-333.zip",
-      "destination": "https://github.com/xdr-labs/xdr-labs-portal/releases/download/v1.0/local-web-attack-ai-v1.0-333.zip",
+      "destination": "https://raw.githubusercontent.com/isoc-labs/isoc-labs-portal/db172b91ac56bc0051cea7ad1e077b6e28b58e17/downloads/local-web-attack-ai-v1.0-333.zip",
       "permanent": false
     },
     {
       "source": "/get/suricata-v1-0-333-zip",
-      "destination": "https://github.com/xdr-labs/xdr-labs-portal/releases/download/v1.0/local-web-attack-ai-v1.0-333.zip",
+      "destination": "https://raw.githubusercontent.com/isoc-labs/isoc-labs-portal/db172b91ac56bc0051cea7ad1e077b6e28b58e17/downloads/local-web-attack-ai-v1.0-333.zip",
       "permanent": false
     },
     {
       "source": "/get/suricata-v1-2-383-zip",
-      "destination": "https://raw.githubusercontent.com/xdr-labs/xdr-labs-portal/30cd0aa102d605283536f3b93affb7a6f0da95d9/downloads/local-web-attack-ai-v1.2-383.zip",
+      "destination": "https://raw.githubusercontent.com/isoc-labs/isoc-labs-portal/db172b91ac56bc0051cea7ad1e077b6e28b58e17/downloads/local-web-attack-ai-v1.2-383.zip",
       "permanent": false
     }
   ]
