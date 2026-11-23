@@ -7,10 +7,10 @@ description: "Stellar Cyber 7.0 단일 Custom TSV 피드 설계와 2026년 11월
 **Stellar Cyber Open XDR 7.0에서 Custom TI를 하나만 등록**하는 공급 구조입니다. IP·도메인 등 여러 IOC 유형을 **하나의 4컬럼 TSV**로 통합하며, 고객 ID·고객별 계정·분리된 피드 주소는 사용하지 않습니다.
 
 <CardGroup cols={2}>
-  <Card title="최신 IOC QA 및 수집 검증 증거" icon="clipboard-check" href="https://github.com/xdr-labs/xdr-labs-portal/actions/runs/44997698618">
+  <Card title="최신 IOC QA 및 수집 검증 증거" icon="clipboard-check" href="https://github.com/isoc-labs/isoc-labs-portal/actions/runs/44997698618">
     11월 22일 원본 서명 확인, IOC 재생성 검증, 품질 검사 및 QA 결과를 확인합니다.
   </Card>
-  <Card title="단일 피드 공급 구조" icon="file-text" href="https://github.com/xdr-labs/xdr-labs-portal/blob/6a51bae8246f0154dd9f559a1036d7119a783740/docs/stellar-one-feed-delivery-20261122.md">
+  <Card title="단일 피드 공급 구조" icon="file-text" href="https://github.com/isoc-labs/isoc-labs-portal/blob/6a51bae8246f0154dd9f559a1036d7119a783740/docs/stellar-one-feed-delivery-20261122.md">
     하나의 URL, 소스 검증, 서명·만료 검증, 배포 전제 조건을 설명합니다.
   </Card>
 </CardGroup>
@@ -57,9 +57,9 @@ domain	phishing.example.invalid	CERTPolska	75
 - [CERT Polska Warning List](https://cert.pl/en/warning-list/) — 활성 피싱 도메인 데이터; 공표된 정책에 따라 상업적 사용 가능하며 원본 기관의 보증·추천을 의미하지 않습니다.
 - [OffSeq Mirage](https://github.com/offseq/mirage-feed) — 실제 허니팟 관측 기반 데이터, **CC BY 4.0 출처 표시 필요**. 퍼블리셔의 SHA256SUMS 및 Minisign 서명을 독립적으로 검증합니다.
 - Jacobrakai — 독립 검증이 부족한 인증 시도 IP 14개는 통합 악성 피드에 넣지 않고 헌팅 후보로만 관리합니다.
-- [41개 소스 조사 및 제외 근거](https://github.com/xdr-labs/xdr-labs-portal/blob/6a51bae8246f0154dd9f559a1036d7119a783740/docs/stellar-osint-strict-source-audit-20261122.md).
+- [41개 소스 조사 및 제외 근거](https://github.com/isoc-labs/isoc-labs-portal/blob/6a51bae8246f0154dd9f559a1036d7119a783740/docs/stellar-osint-strict-source-audit-20261122.md).
 
-**확인된 결과:** 원본 서명 검증, 스냅샷 전체 IOC 원본 재생성 검사, 단일 URL HTTP 합성 테스트, Suricata 7.0.3·8.0.1 검증. [CI 3/3 PASS](https://github.com/xdr-labs/xdr-labs-portal/actions/runs/44997698618).
+**확인된 결과:** 원본 서명 검증, 스냅샷 전체 IOC 원본 재생성 검사, 단일 URL HTTP 합성 테스트, Suricata 7.0.3·8.0.1 검증. [CI 3/3 PASS](https://github.com/isoc-labs/isoc-labs-portal/actions/runs/44997698618).
 
 **아직 확인되지 않은 항목:** 실제 공용 HTTPS 배포, 보호된 운영 서명키, 고객에게 지속 제공되는 TI URL, Stellar Cyber DP의 IOC 수집·삭제 동작, OEM 중복률, 실제 Sensor → DP Alert/Case E2E 및 운영 탐지율·오탐률.
 

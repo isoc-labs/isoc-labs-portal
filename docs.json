@@ -16,7 +16,7 @@
       },
       {
         "type": "github",
-        "href": "https://github.com/xdr-labs"
+        "href": "https://github.com/isoc-labs"
       }
     ],
     "primary": {
@@ -31,7 +31,7 @@
   "seo": {
     "indexing": "navigable",
     "metatags": {
-      "canonical": "https://xdr.ooo"
+      "canonical": "https://isoc.ooo"
     }
   },
   "appearance": {
@@ -106,18 +106,18 @@
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
-    "href": "https://xdr.ooo"
+    "href": "https://isoc.ooo"
   },
   "favicon": "/favicon.svg",
   "redirects": [
     {
       "source": "/products/openxdr-kvm-installer",
-      "destination": "https://kvm.xdr.ooo/",
+      "destination": "https://kvm.isoc.ooo/",
       "permanent": true
     },
     {
       "source": "/ko/products/openxdr-kvm-installer",
-      "destination": "https://kvm.xdr.ooo/ko",
+      "destination": "https://kvm.isoc.ooo/ko",
       "permanent": true
     },
     {
