@@ -7,10 +7,10 @@ description: "Quality-first Stellar Cyber 7.0 single-URL Custom TSV TI: verified
 **One planned Custom TI feed for Stellar Cyber Open XDR 7.0**, covering multiple IOC types in **one four-column TSV**, not separate IP and phishing feeds. No customer ID, account registration, or per-customer URL is required.
 
 <CardGroup cols={2}>
-  <Card title="Latest verified QA evidence" icon="clipboard-check" href="https://github.com/isoc-labs/isoc-labs-portal/actions/runs/44997698618">
+  <Card title="Latest verified QA evidence" icon="clipboard-check" href="https://github.com/xdr-labs/xdr-labs-portal/actions/runs/44997698618">
     November 22 source verification, signed publisher checks, exact original-source replay, and retained QA artifact.
   </Card>
-  <Card title="Single feed delivery design" icon="file-text" href="https://github.com/isoc-labs/isoc-labs-portal/blob/6a51bae8246f0154dd9f559a1036d7119a783740/docs/stellar-one-feed-delivery-20261122.md">
+  <Card title="Single feed delivery design" icon="file-text" href="https://github.com/xdr-labs/xdr-labs-portal/blob/6a51bae8246f0154dd9f559a1036d7119a783740/docs/stellar-one-feed-delivery-20261122.md">
     Read the one-URL reader, origin signing, expiry, scope and deployment prerequisites.
   </Card>
 </CardGroup>
@@ -57,9 +57,9 @@ The internal collector preserves each source and type separately so source prove
 - [CERT Polska Warning List](https://cert.pl/en/warning-list/) — active phishing-domain information; commercial use allowed under its declared policy; no endorsement implied.
 - [OffSeq Mirage original honeypot observations](https://github.com/offseq/mirage-feed) — source data are **CC BY 4.0**, requiring attribution; its signed original `SHA256SUMS` and Minisign proof are checked in QA.
 - Jacobrakai honeypot — original-sensor correlation candidate only; its 14 credential-only records do **not** enter the customer-facing candidate.
-- [Read the 41-source audit and exclusions](https://github.com/isoc-labs/isoc-labs-portal/blob/6a51bae8246f0154dd9f559a1036d7119a783740/docs/stellar-osint-strict-source-audit-20261122.md).
+- [Read the 41-source audit and exclusions](https://github.com/xdr-labs/xdr-labs-portal/blob/6a51bae8246f0154dd9f559a1036d7119a783740/docs/stellar-osint-strict-source-audit-20261122.md).
 
-**What is verified:** unit/regression tests, signed original source checks, byte-for-byte source-to-IOC replay, one-URL synthetic HTTP QA, Suricata 7.0.3/8.0.1 checks. [CI evidence: 3/3 PASS](https://github.com/isoc-labs/isoc-labs-portal/actions/runs/44997698618).
+**What is verified:** unit/regression tests, signed original source checks, byte-for-byte source-to-IOC replay, one-URL synthetic HTTP QA, Suricata 7.0.3/8.0.1 checks. [CI evidence: 3/3 PASS](https://github.com/xdr-labs/xdr-labs-portal/actions/runs/44997698618).
 
 **What is not verified or available:** public TLS origin, protected production signer, a continuously running customer feed, native Stellar Cyber 7.0 TIP polling/removal semantics, current OEM-indicator overlaps, a live Sensor→DP Alert/Case test, or operational detection/false-positive rates.
 
