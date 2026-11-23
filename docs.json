@@ -16,7 +16,7 @@
       },
       {
         "type": "github",
-        "href": "https://github.com/xdr-labs"
+        "href": "https://github.com/isoc-labs"
       }
     ],
     "primary": {
@@ -112,12 +112,12 @@
   "redirects": [
     {
       "source": "/products/openxdr-kvm-installer",
-      "destination": "https://kvm.xdr.ooo/",
+      "destination": "https://kvm.isoc.ooo/",
       "permanent": true
     },
     {
       "source": "/ko/products/openxdr-kvm-installer",
-      "destination": "https://kvm.xdr.ooo/ko",
+      "destination": "https://kvm.isoc.ooo/ko",
       "permanent": true
     },
     {
