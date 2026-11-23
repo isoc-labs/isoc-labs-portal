@@ -31,7 +31,7 @@
   "seo": {
     "indexing": "navigable",
     "metatags": {
-      "canonical": "https://xdr.ooo"
+      "canonical": "https://isoc.ooo"
     }
   },
   "appearance": {
@@ -106,7 +106,7 @@
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
-    "href": "https://xdr.ooo"
+    "href": "https://isoc.ooo"
   },
   "favicon": "/favicon.svg",
   "redirects": [
