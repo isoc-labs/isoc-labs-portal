@@ -1,13 +1,11 @@
 ---
 title: "ISOC Authenticated Web MCP"
-description: "A step-by-step guide to searching sign-in-protected Stellar Cyber documentation in ChatGPT and Claude."
+description: "Search Stellar Cyber documentation and use its original images and attachments in ChatGPT or Claude."
 ---
 
-## What is it?
+When you ask an AI assistant to look up Stellar Cyber documentation, it may only reach the sign-in page. ISOC Web MCP connects your assistant to the documentation using your own website access. It can read the documents, provide source links and retrieve original images and attachments.
 
-Stellar Cyber technical documentation requires sign-in, so ordinary AI web search may not be able to read it. ISOC Web MCP lets ChatGPT or Claude search and read documentation you are authorized to access, with links to the original pages.
-
-No additional software is required. Add this server address to your AI service:
+There is no software to install. Add this server address to ChatGPT or Claude:
 
 ```text
 https://browser.isoc.ooo/mcp
@@ -15,23 +13,21 @@ https://browser.isoc.ooo/mcp
 
 | AI service | Availability |
 | --- | --- |
-| ChatGPT | Connection and document search verified |
-| Claude | Connection and document search verified |
-| Gemini | Setup instructions available; ISOC connection not yet verified |
+| ChatGPT | Document search, original files and Word/PowerPoint creation verified |
+| Claude | Document search, original files and Word/PowerPoint creation verified in user testing |
+| Gemini | Connection not yet verified; see the appendix |
 
-This is a public test service currently configured for Stellar Cyber documentation. Other sites require separate configuration.
+The public test service currently supports Stellar Cyber documentation. Other websites require separate configuration.
 
 ## Before you start
 
-You need a desktop web browser, an AI account that supports custom MCP servers, and your own email account with access to Stellar Cyber documentation.
+Sign in to your AI service in a desktop web browser. You also need your own email account with access to Stellar Cyber documentation.
 
-**Setup order:** Add MCP → approve the connection → ask your first question → sign in to the website → repeat the question.
-
-Adding MCP and signing in to the website are separate steps. If you use both ChatGPT and Claude, connect and sign in separately for each.
+If you use ChatGPT, follow section 1. If you use Claude, follow section 2 instead. Then continue with section 3 (connection approval) and section 4 (website sign-in). If you use both services, connect and sign in separately for each.
 
 ## 1. Connect ChatGPT
 
-Sign in to [ChatGPT](https://chatgpt.com/). Bold labels below match the interface.
+Open [ChatGPT](https://chatgpt.com/) in your browser.
 
 <Steps>
   <Step title="Open Plugins">
@@ -41,15 +37,15 @@ Sign in to [ChatGPT](https://chatgpt.com/). Bold labels below match the interfac
       <img src="/images/authenticated-web-mcp/chatgpt-plugins.png" alt="Plugins in the sidebar and at the top" />
     </Frame>
   </Step>
-  <Step title="Add a custom MCP server">
-    Select **Add** (+) in the upper right, then **Add custom MCP server**.
+  <Step title="Add an MCP server">
+    Click **Add** (+) in the upper right, then **Add custom MCP server**.
 
     <Frame caption="Select Add custom MCP server">
       <img src="/images/authenticated-web-mcp/chatgpt-add-menu.png" alt="Select Add custom MCP server" />
     </Frame>
   </Step>
   <Step title="Enter the server details">
-    Use these values:
+    Use the following settings:
 
     | Field | Value |
     | --- | --- |
@@ -59,280 +55,210 @@ Sign in to [ChatGPT](https://chatgpt.com/). Bold labels below match the interfac
     | Server URL | `https://browser.isoc.ooo/mcp` |
     | Authentication | OAuth |
 
-    Leave **Advanced OAuth settings** unchanged. You do not need to enter a Client ID or Client Secret.
+    Leave **Advanced OAuth settings** at their defaults. No separate Client ID or Client Secret is needed.
 
     <Frame caption="Enter the server details and create the plugin">
       <img src="/images/authenticated-web-mcp/chatgpt-mcp-form.png" alt="Enter the server details and create the plugin" />
     </Frame>
-    Use the ISOC address above instead of any example address in the screenshot.
+    Use the ISOC URL in the table, not the example address in the screenshot.
   </Step>
   <Step title="Create the plugin">
-    Read the security notice. If you trust the server, check **I understand and want to continue**, then select **Create as a plugin**.
+    Read the security notice. If you trust the server, check **I understand and want to continue** and click **Create as a plugin**.
   </Step>
   <Step title="Install and connect">
-    In the **Personal** tab of Plugins, select ISOC Web MCP. Select **Install**, then **Connect**, if shown. When the connection approval page opens, follow section 4 below.
-  </Step>
-  <Step title="Use it in chat">
-    In a new chat, select ISOC Web MCP from the **+** menu or find it by typing `@` and its name. Try the example question in section 5.
+    Find ISOC Web MCP in the **Personal** tab of Plugins. Click **Install** and then **Connect** if those buttons appear. Follow section 3 when the approval page opens.
   </Step>
 </Steps>
 
-<Tip>Can't find Plugins? Check that you are using the web version and your plan supports custom MCP servers. Work accounts may require administrator permission. [ChatGPT help](https://help.openai.com/en/articles/12584461-connecting-custom-mcp-servers-in-chatgpt)</Tip>
+Once connected, open a new chat and select ISOC Web MCP from the **+** menu, or find it by typing `@` and its name. Try the question in section 4.
+
+<Tip>Can't find Plugins? Check that you're using the desktop web version and that your plan supports custom MCP servers. Work accounts may require administrator permission. [ChatGPT help](https://help.openai.com/en/articles/12584461-connecting-custom-mcp-servers-in-chatgpt)</Tip>
 
 ## 2. Connect Claude
 
-Sign in to [Claude](https://claude.ai/).
+Open [Claude](https://claude.ai/) in your browser.
 
 <Steps>
   <Step title="Open Connectors">
-    Choose **Customize** in the left sidebar, then **Connectors** at the top.
+    Select **Customize** in the sidebar and the **Connectors** tab at the top.
 
     <Frame caption="Select Connectors under Customize">
       <img src="/images/authenticated-web-mcp/claude-connectors.png" alt="Select Connectors under Customize" />
     </Frame>
   </Step>
   <Step title="Add a connector">
-    Select **+ Add** in the upper right, then **Add custom connector**.
+    Click **+ Add** in the upper right, then **Add custom connector**.
 
     <Frame caption="Select Add custom connector">
       <img src="/images/authenticated-web-mcp/claude-add-menu.png" alt="Select Add custom connector" />
     </Frame>
   </Step>
-  <Step title="Enter the name and server address">
-    Leave the search box empty. Under **Or add a custom connector by URL**, enter:
+  <Step title="Enter the server address">
+    Under **Or add a custom connector by URL**, fill in the fields below and click **Continue**.
 
     | Field | Value |
     | --- | --- |
     | Name | ISOC Web MCP |
     | MCP server URL | `https://browser.isoc.ooo/mcp` |
 
-    Select **Continue**.
-
     <Frame caption="Enter the name and MCP server URL">
       <img src="/images/authenticated-web-mcp/claude-mcp-form.png" alt="Enter the name and MCP server URL" />
     </Frame>
   </Step>
-  <Step title="Check authentication">
-    Review the detected settings and select **Continue**. If Authentication options are shown, choose **Sign in now**. For OAuth client, choose **Register automatically**. Leave Client ID, Client Secret and Request headers blank.
+  <Step title="Set up authentication">
+    Review the detected settings and click **Continue**. If prompted, select **Sign in now** and **Register automatically** for OAuth client registration. Leave Client ID, Client Secret and Request headers blank.
   </Step>
-  <Step title="Finish connecting">
-    Select **Add**. If a sign-in prompt or **Connect** button appears, proceed with the connection. Follow section 4 when the approval page opens. Find ISOC Web MCP under **Yours** in Connectors.
-  </Step>
-  <Step title="Use it in chat">
-    In the chat composer, open **+ → Connectors** and turn on ISOC Web MCP. Try the example question in section 5.
+  <Step title="Connect">
+    Click **Add**. If a **Connect** button or sign-in prompt appears, follow it. See section 3 for the approval page. The connector appears under **Yours** in Connectors.
   </Step>
 </Steps>
 
-<Tip>Free accounts are limited to one custom connector. Team or Enterprise accounts may need an administrator to add it first under **Organization settings → Connectors → Add → Custom → Web**. [Claude help](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp)</Tip>
+In the chat composer, open **+ → Connectors** and turn on ISOC Web MCP. Try the question in section 4.
 
-## 3. Connect Gemini (not yet verified)
+<Tip>Free accounts are limited to one custom connector. For Team or Enterprise accounts, an administrator may need to add it first under **Organization settings → Connectors → Add → Custom → Web**. [Claude help](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp)</Tip>
 
-<Warning>ISOC Web MCP has not yet been verified with Gemini. Use ChatGPT or Claude if you need to start searching documentation now.</Warning>
+## 3. Approve the connection
 
-Google's ordinary custom app feature requires a personal account in the US, age 18 or older, History enabled, and an English interface. The menu may not be available in other regions.
-
-### Standard setup
-
-<Steps>
-  <Step title="Open Connected Apps">
-    In [Gemini](https://gemini.google.com/), choose **Settings → Connected Apps**. If needed, look under **Personal Intelligence → Connected Apps**. In Spark, Connected Apps can appear in the sidebar.
-
-    <Frame caption="Custom apps under Connected Apps (Spark interface)">
-      <img src="/images/authenticated-web-mcp/gemini-connected-apps.png" alt="Custom apps under Connected Apps (Spark interface)" />
-    </Frame>
-  </Step>
-  <Step title="Add a custom app">
-    Choose **Custom apps → Add a custom app**. Enter the address below and select **Next**.
-
-    ```text
-    https://browser.isoc.ooo/mcp
-    ```
-
-    Leave advanced settings unchanged if automatic registration is available. Use the ISOC address instead of any example address shown in the screenshot.
-
-    <Frame caption="Enter the custom app URL">
-      <img src="/images/authenticated-web-mcp/gemini-custom-app-form.png" alt="Enter the custom app URL" />
-    </Frame>
-  </Step>
-  <Step title="Check the connection">
-    Review the security notice and select **Connect** if you trust the server. Follow any authentication prompts, review the name and available tools, and finish connecting. Stop if authentication fails.
-  </Step>
-</Steps>
-
-### Test in Developer Mode
-
-Developer Mode is a separate test interface. Use it only if your account offers it.
-
-<Steps>
-  <Step title="Open Developer Mode">
-    Open [Gemini Developer Mode](https://gemini.google.com/devmode) or choose **Settings → Gemini Apps Developer Mode**. Select **Choose an app → + Create new**.
-  </Step>
-  <Step title="Enter the server address">
-    Enter the ISOC address in **MCP Server URL**, then select **Next**. Leave Additional settings unchanged unless separate authentication values are required.
-
-    <Frame caption="Enter the MCP server URL in Developer Mode">
-      <img src="/images/authenticated-web-mcp/gemini-developer-form.jpg" alt="Enter the MCP server URL in Developer Mode" />
-    </Frame>
-  </Step>
-  <Step title="Save the app and check the connection">
-    Review the warning and select **Connect**. In **Save your custom app**, enter the name, review Available actions, and select **Connect** again. Check **Authentication** and **Tool schemas** in the right panel.
-
-    <Frame caption="Developer Mode connection details (sample app)">
-      <img src="/images/authenticated-web-mcp/gemini-developer-workspace.png" alt="Developer Mode connection details (sample app)" />
-    </Frame>
-  </Step>
-</Steps>
-
-[Google custom apps help](https://support.google.com/gemini/answer/17209137) · [Developer Mode help](https://developers.google.com/connected-apps/mcp/dev-mode/usage)
-
-## 4. Approve the connection
-
-When you first connect ChatGPT or Claude, the **Connect an AI client** page opens in your browser. Check that the AI service is the one you intended to connect, and read the security notice.
-
-Select **Approve** if you requested and trust the connection, or **Deny** otherwise. Return to the AI service to finish setup.
+When you first connect, your browser opens a page titled **Connect an AI client**. Check that the address is on browser.isoc.ooo and that the client is the AI service you intended to connect. Read the notice and select **Approve** if you trust the connection, or **Deny** if you did not request it.
 
 <Frame caption="Connection approval: Approve or Deny">
   <img src="/images/authenticated-web-mcp/connection-consent.png" alt="Connection approval: Approve or Deny" />
 </Frame>
 
-Your AI service is now connected to ISOC Web MCP. You still need to sign in to the documentation website.
+Your AI is now connected to ISOC Web MCP. You still need to sign in to the Stellar Cyber documentation website.
 
-## 5. Sign in to Stellar Cyber documentation
+## 4. Sign in to Stellar Cyber documentation
 
 <Steps>
-  <Step title="Ask a question and open the sign-in link">
-    Select ISOC Web MCP and paste this example into your AI chat:
+  <Step title="Ask your first question">
+    Select ISOC Web MCP in your chat and try:
 
     ```text
-    Use ISOC Web MCP to explain Azure vTAP setup in Stellar Cyber 7.1.
-    If sign-in is required, provide a sign-in link.
+    Use ISOC Web MCP to find Azure vTAP setup instructions for Stellar Cyber 7.1.
+    If sign-in is required, send me a sign-in link.
     Include links to the original documents.
     ```
 
-    If sign-in is needed, the AI will provide a link. Open it in your browser. If it expires, ask for a new link.
+    If the AI sends a sign-in link, open it in your browser. Ask for a new link if it expires.
   </Step>
   <Step title="Enter your email">
-    Check that the browser address is on **browser.isoc.ooo** and the displayed website is **https://docs.stellarcyber.ai**.
-
-    Enter your authorized Stellar Cyber documentation email address and select **Continue**.
+    Check that the browser address is on **browser.isoc.ooo** and the website shown on the page is **https://docs.stellarcyber.ai**. Enter the email address you use to access the documentation and click **Continue**.
 
     <Frame caption="Documentation site and email field">
       <img src="/images/authenticated-web-mcp/website-email.png" alt="Documentation site and email field" />
     </Frame>
   </Step>
-  <Step title="Enter the verification code">
-    Check your inbox for the one-time verification code (OTP) from Stellar Cyber. Enter it on the browser sign-in page and select **Continue**. Field labels may vary depending on the site's sign-in form.
+  <Step title="Verify your email">
+    Find the one-time verification code (OTP) sent by Stellar Cyber. Enter it on the browser sign-in page and click **Continue**. The field name can vary with the website's sign-in form.
 
     <Frame caption="Enter the email verification code">
       <img src="/images/authenticated-web-mcp/website-verification-code.png" alt="Enter the email verification code" />
     </Frame>
   </Step>
-  <Step title="Return to your chat">
-    When **Signed in. Return to your AI chat and repeat your question.** appears, sign-in is complete.
+  <Step title="Return to the chat">
+    When **Signed in. Return to your AI chat and repeat your question.** appears, go back to your original conversation and ask the same question again.
 
     <Frame caption="Sign-in complete">
       <img src="/images/authenticated-web-mcp/website-success.png" alt="Sign-in complete" />
     </Frame>
-    Return to the original chat and repeat your question.
   </Step>
 </Steps>
 
-<Warning>Do not share passwords, email verification codes or sign-in links, or paste them into an AI chat. Enter sign-in details only in the browser. ISOC relays inputs to the website and encrypts the cookies used to keep you signed in. Encryption does not eliminate the operator’s ability to access session data. Connect only to a server you trust.</Warning>
+<Warning>Enter passwords and verification codes only on the browser sign-in page. Do not share sign-in links or credentials, or paste them into a chat. ISOC relays your sign-in inputs to the target website and encrypts the cookies that keep you signed in. Encryption does not prevent all operator access, so connect only to a server you trust.</Warning>
 
-## 6. Search the documentation
+## 5. Search the documentation
 
-Ask questions as usual. You can start new chats using the same AI connection while your website sign-in remains valid.
+Once signed in, simply ask the questions you would normally look up in the documentation. You can start a new chat on the same AI connection without signing in again while the website session remains valid.
 
 <AccordionGroup>
-  <Accordion title="Azure vTAP configuration">
+  <Accordion title="Configure Azure vTAP">
     ```text
-    Use ISOC Web MCP to find Stellar Cyber 7.1 Azure vTAP documentation.
-    Compare Direct Connection and Internal Load Balancer configuration,
-    explain network requirements, and include original document links.
+    Find the Stellar Cyber 7.1 Azure vTAP documentation.
+    Compare Direct Connection and Internal Load Balancer, including
+    NIC and network requirements. Include source links.
     ```
 
-    [Example source document](https://docs.stellarcyber.ai/7.1.xs/Installation/Azure-vTAP-MS.htm)
+    [Source document](https://docs.stellarcyber.ai/7.1.xs/Installation/Azure-vTAP-MS.htm)
   </Accordion>
-  <Accordion title="Auto Triage">
+  <Accordion title="Check Auto Triage support">
     ```text
-    Use ISOC Web MCP to find Alert Auto Triage documentation.
-    Explain on-premises requirements and limitations, with source links.
+    Read the Alert Auto Triage documentation and explain the requirements
+    and limitations for on-premises deployments. Include source links.
     ```
 
-    [Example source document](https://docs.stellarcyber.ai/7.1.xs/Using/Auto-Triage/alert-auto-triage.htm)
+    [Source document](https://docs.stellarcyber.ai/7.1.xs/Using/Auto-Triage/alert-auto-triage.htm)
   </Accordion>
-  <Accordion title="IDS Home Network">
+  <Accordion title="Check IDS settings">
     ```text
-    Use ISOC Web MCP to find IDS Home Network and External Network setup.
-    Explain how to configure Specific IP ranges and include source links.
+    Find the IDS Home Network and External Network settings for Specific IP ranges.
+    Explain the setup, link the original document, and avoid guessing.
     ```
 
-    [Example source document](https://docs.stellarcyber.ai/7.1.xs/Configure/Sensors/Sensor-Profile-Modular-Config.htm)
+    [Source document](https://docs.stellarcyber.ai/7.1.xs/Configure/Sensors/Sensor-Profile-Modular-Config.htm)
   </Accordion>
 </AccordionGroup>
 
-<Tip>If a search finds nothing, ask the AI to try alternative English product terms. For long documents, ask it to read the entire document before answering.</Tip>
+If a search returns nothing, try alternative English product terms. For long documents, ask the AI to read the entire document before answering.
 
-## 7. Use original images and attachments
+## 6. Download images and attachments
 
-You can retrieve original screenshots, diagrams and attachments from an authorized document. The service preserves the source bytes and does not resize, recompress or convert images.
+You can retrieve screenshots, diagrams and PDF guides directly from the documentation. For example, you can use the original diagrams when preparing an Azure vTAP guide. Check the source's usage terms before distributing the document.
 
 <Steps>
-  <Step title="Find the images you need">
-    Ask ISOC Web MCP to read the document and list the original URLs of its images and attachments.
-
+  <Step title="Find the files">
     ```text
-    Read the Stellar Cyber 7.1 Azure vTAP documentation.
-    List the images and attachments with original source URLs.
-    Identify the screenshots relevant to the setup.
+    Use ISOC Web MCP to read the Azure vTAP installation guide.
+    List its diagrams and attachments.
     ```
   </Step>
-  <Step title="Retrieve the original file">
-    Select an image or attachment and ask the AI to save the actual file. Small images can be returned as MCP image content; other files can use MCP resources or authenticated HTTPS downloads.
-
+  <Step title="Download the originals">
     ```text
-    Retrieve the original PNG of the Azure vTAP setup screen.
-    Do not change its dimensions or format.
-    Verify the saved file size and SHA-256.
+    Download the original Direct Connection and Internal Load Balancer diagrams.
+    Keep their original resolution and file format.
     ```
+
+    The service retrieves the original files rather than redrawing or taking screenshots of them. Check that the AI has saved actual files.
   </Step>
-  <Step title="Insert it in a document">
-    Once the AI has acquired the original file, ask it to insert it into a PowerPoint or Word document.
-
+  <Step title="Create your document">
     ```text
-    Create a PowerPoint guide using the acquired original screenshot.
-    Do not regenerate or recompress it.
-    Verify that the embedded image SHA-256 matches the original.
+    Create a PowerPoint guide for Azure vTAP using the original downloaded
+    diagrams. Do not convert or recompress them. Include the source links.
     ```
+
+    For a Word document, ask for Word instead of PowerPoint.
   </Step>
 </Steps>
 
-| Supported item | Details |
+A real ChatGPT test confirmed that a downloaded original PNG remained byte-identical inside Word and PowerPoint. User testing of Claude also reported successful insertion of five original images and download and reassembly of three large PDFs.
+
+<Accordion title="Supported files and download limits">
+  | Item | Details |
+  | --- | --- |
+  | Images | PNG, JPEG, GIF, WebP, SVG |
+  | Attachments | PDF, ZIP, DOCX, PPTX, XLSX |
+  | File size | Up to 16 MiB per file |
+  | Large files | Transferred in 512 KiB chunks |
+  | File details | Name, format, size, available image dimensions and SHA-256 |
+
+  To verify an original, ask the AI to compare the saved file's SHA-256 with the hash reported by the server. The same check can be applied to images embedded in documents. JPEG, SVG and WebP passed server integration tests; actual file handling varies by AI service.
+</Accordion>
+
+<Note>A preview or URL is not the same as a saved original file. Check that the AI has acquired the file before asking it to create a document. Download URLs require the existing AI connection's authentication and may not open in an ordinary browser. Never share authentication tokens. Check file sources before opening them; this service does not scan files for malware.</Note>
+
+## 7. Troubleshooting
+
+| Problem | What to try |
 | --- | --- |
-| Images | PNG, JPEG, GIF, WebP, SVG |
-| Attachments | PDF, ZIP, DOCX, PPTX, XLSX |
-| Integrity | Filename, media type, byte size, SHA-256 and available raster dimensions |
-| File limit | Up to 16 MiB, with 512 KiB chunks for larger files |
-
-<Note>ChatGPT successfully acquired an original Stellar Cyber PNG file and inserted it into Word and PowerPoint with matching original and embedded image SHA-256 hashes. A user-reported Claude test also successfully embedded five original images in Word and PowerPoint and reconstructed three PDFs larger than 512 KiB, with matching SHA-256 hashes. File handling support varies by AI host. Seeing a preview or a URL is not the same as acquiring an actual file. Download addresses require the connection's OAuth authentication; opening an address in an ordinary browser without authentication may fail. Never paste tokens into chat.</Note>
-
-Check the source before opening files. Original-file retrieval is not a malware scanner.
-
-## 8. Troubleshooting
-
-| Problem | What to do |
-| --- | --- |
-| No custom MCP menu | Check web access, plan and workspace permissions |
-| Connection fails | Check the complete server address, including /mcp |
-| Sign-in needed (login_required) | Ask the AI for a new sign-in link |
-| Sign-in link expired | Request a fresh link |
-| No matching documents | Try different English search terms |
-| Document changed (document_changed) | Ask the AI to read from the beginning |
-| Unsupported site (unsupported_site) | Check that the site is the supported Stellar Cyber documentation |
-| Busy (busy) | Wait briefly and try again. For chunked downloads, retry only the failed chunk. |
-| File access denied (access_denied) | Check your permission to view the original file |
-| Size limit (size_limit_exceeded) | Select a file within the 16 MiB limit |
-| Cannot save the file | Check the AI host file support; a preview alone is not an acquired original |
+| No custom MCP menu | Check desktop web access, plan and workspace permissions. |
+| Connection fails | Check that the server URL includes /mcp. |
+| Sign-in required or link expired | Ask the AI for a new sign-in link. (login_required) |
+| No search results | Try different English product terms. |
+| Document or file changed (document_changed) | Ask the AI to retrieve it again from the beginning. |
+| Unsupported site (unsupported_site) | Check that it is the supported Stellar Cyber documentation site. |
+| Busy (busy) | Retry shortly. For chunked downloads, retry only the failed chunk. |
+| Access denied (access_denied) | Check your permission to view the file. |
+| File too large (size_limit_exceeded) | Choose a file within the 16 MiB limit. |
+| Unable to save a file | Check whether your AI environment supports actual file delivery. |
 
 ### Sign out or disconnect
 
@@ -342,18 +268,72 @@ To sign out of the documentation website, ask:
 Use ISOC Web MCP to sign out of Stellar Cyber documentation.
 ```
 
-This removes the saved sign-in for that AI connection only. Other AI services and direct browser sessions are unaffected. Sign in again with email verification when needed.
+This removes the saved sign-in for that AI connection only. It does not affect other AI services or your direct browser session.
 
-To disconnect MCP itself, manage the entry in ChatGPT Plugins, Claude Connectors, or Gemini Connected Apps.
+To stop using MCP, disconnect it in ChatGPT Plugins or Claude Connectors. You can sign in again whenever needed.
 
-## Good to know
+## Appendix: Gemini setup
 
-This service searches and reads documents you have permission to access. It does not edit documents or bypass access controls. Search results may not always be ideal; check the original source for important information.
+ISOC Web MCP's connection with Gemini has not yet been verified. For immediate use, choose ChatGPT or Claude.
 
-An independent ISOC Labs tool, not an official Stellar Cyber or AI-provider product.
+Google's standard custom app feature requires a personal US-based account, age 18 or older, History enabled and an English interface. The menu may be unavailable if your account does not meet these requirements.
+
+### Standard setup
+
+<Steps>
+  <Step title="Open Connected Apps">
+    In [Gemini](https://gemini.google.com/), choose **Settings → Connected Apps**. If needed, look under **Personal Intelligence → Connected Apps**. Spark may show Connected Apps directly in the sidebar.
+
+    <Frame caption="Custom apps under Connected Apps (Spark interface)">
+      <img src="/images/authenticated-web-mcp/gemini-connected-apps.png" alt="Custom apps under Connected Apps (Spark interface)" />
+    </Frame>
+  </Step>
+  <Step title="Add an app">
+    Choose **Custom apps → Add a custom app**, enter `https://browser.isoc.ooo/mcp` and click **Next**. Leave advanced authentication settings unchanged if automatic registration is available.
+
+    <Frame caption="Enter the custom app URL">
+      <img src="/images/authenticated-web-mcp/gemini-custom-app-form.png" alt="Enter the custom app URL" />
+    </Frame>
+    Use the ISOC address instead of the other service address shown in the screenshot.
+  </Step>
+  <Step title="Check the connection">
+    Read the security notice and click **Connect** if you trust the server. Follow any authentication prompts, review the name and tools, and finish connecting. Stop if authentication fails.
+  </Step>
+</Steps>
+
+### Developer Mode
+
+Developer Mode is a separate testing interface. Use it only if your account offers it.
+
+<Steps>
+  <Step title="Open Developer Mode">
+    Open [Gemini Developer Mode](https://gemini.google.com/devmode) or choose **Settings → Gemini Apps Developer Mode**, then **Choose an app → + Create new**.
+  </Step>
+  <Step title="Enter the URL">
+    Enter the ISOC address in **MCP Server URL** and click **Next**. Leave Additional settings unchanged unless separate authentication values are required.
+
+    <Frame caption="Enter the MCP server URL in Developer Mode">
+      <img src="/images/authenticated-web-mcp/gemini-developer-form.jpg" alt="Enter the MCP server URL in Developer Mode" />
+    </Frame>
+  </Step>
+  <Step title="Check the connection">
+    Read the notice and click **Connect**. In **Save your custom app**, enter a name, review Available actions and click **Connect** again. Check **Authentication** and **Tool schemas** in the right panel.
+
+    <Frame caption="Developer Mode connection details (sample app)">
+      <img src="/images/authenticated-web-mcp/gemini-developer-workspace.png" alt="Developer Mode connection details (sample app)" />
+    </Frame>
+  </Step>
+</Steps>
+
+[Google custom apps help](https://support.google.com/gemini/answer/17209137) · [Developer Mode help](https://developers.google.com/connected-apps/mcp/dev-mode/usage)
+
+## About the service
+
+ISOC Web MCP searches and reads only documents you are authorized to access. It cannot edit documents or bypass access controls. Check original sources before relying on important product or configuration details.
+
+This is an independent ISOC Labs tool, not an official Stellar Cyber or AI-provider product.
 
 [Service status](https://browser.isoc.ooo/health) · [한국어 설명서](/ko/products/authenticated-web-mcp)
-
 
 <Accordion title="Official help and screenshot references">
   [Official ChatGPT setup](https://developers.openai.com/api/docs/guides/custom-mcp-server) · [ChatGPT setup screens](https://qontex.nl/en/handleidingen/chatgpt/server-op-afstand) · [Claude setup screens](https://qontex.nl/en/handleidingen/claude/server-op-afstand) · [Gemini standard setup screens](https://docs.vocci.ai/users/clients/gemini-spark) · [Gemini Developer Mode screens](https://developers.google.com/connected-apps/mcp/dev-mode) · [Gemini Developer Mode dialog](https://www.buildflows.ai/articles/connect-procore-mcp-server-google-gemini)
