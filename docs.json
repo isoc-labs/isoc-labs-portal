@@ -66,7 +66,8 @@
               "products/xdr-lab-appliance",
               "products/parser-studio",
               "products/ai-assisted-attack-detection-rules",
-              "products/stellar-custom-threat-intelligence"
+              "products/stellar-custom-threat-intelligence",
+              "products/authenticated-web-mcp"
             ],
             "icon": "box"
           }
@@ -95,7 +96,8 @@
               "ko/products/xdr-lab-appliance",
               "ko/products/parser-studio",
               "ko/products/ai-assisted-attack-detection-rules",
-              "ko/products/stellar-custom-threat-intelligence"
+              "ko/products/stellar-custom-threat-intelligence",
+              "ko/products/authenticated-web-mcp"
             ],
             "icon": "box"
           }
