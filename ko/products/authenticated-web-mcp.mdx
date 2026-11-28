@@ -27,78 +27,162 @@ https://browser.isoc.ooo/mcp
 
 ## 1. ChatGPT에 등록
 
-[ChatGPT 웹](https://chatgpt.com/)을 엽니다. 모바일 앱이 아니라 웹에서 먼저 등록합니다.
+PC 웹 브라우저에서 [ChatGPT Plugins](https://chatgpt.com/plugins)를 엽니다. 아래는 2026년 11월 28일 공식 안내와 실제 등록 화면을 대조한 절차입니다. 캡처는 공개 가이드의 원본 화면이며, 입력값은 아래 ISOC 주소로 바꿔 사용합니다.
 
 <Steps>
-  <Step title="Plugins에서 사용자 지정 서버 추가">
-    **Plugins(플러그인)** 화면에서 **+ → Add custom MCP server**를 선택합니다. 설정의 앱 관리 메뉴에서 진입하는 계정도 있습니다. 메뉴가 없다면 해당 플랜 및 워크스페이스 관리자의 권한을 확인하세요.
+  <Step title="왼쪽 메뉴에서 Plugins 선택">
+    왼쪽 사이드바의 **Plugins**를 클릭하고 상단 **Plugins** 탭을 선택합니다.
 
-    <Frame caption="공식 설정 절차를 바탕으로 만든 화면 안내도 — 실제 ChatGPT 캡처가 아닙니다.">
-      <img src="/images/authenticated-web-mcp/chatgpt-setup.png" alt="ChatGPT Plugins에서 Add custom MCP server를 선택하고 Server URL을 입력하는 안내도" />
+    <Frame caption="실제 ChatGPT 화면 · Qontex · 2026-11-16">
+      <img src="/images/authenticated-web-mcp/chatgpt-plugins.png" alt="왼쪽 Plugins 및 상단 Plugins 탭" />
     </Frame>
   </Step>
-  <Step title="이름과 서버 주소 입력">
-    이름은 **ISOC Web MCP**로 지정하고 서버 주소에 위 MCP URL을 정확히 입력합니다. 인증 방식 선택이 표시되면 OAuth를 사용합니다. 서버는 자동 클라이언트 등록을 지원하므로 별도의 Client ID나 Secret을 임의로 입력하지 않습니다.
+  <Step title="오른쪽 Add에서 사용자 지정 MCP 추가">
+    오른쪽 상단 **Add**(또는 + 버튼)를 클릭하고 메뉴의 **Add custom MCP server**를 선택합니다. Create plugin이나 Upload plugin archive를 선택하지 않습니다.
+
+    <Frame caption="실제 ChatGPT 화면 · Qontex · 2026-10-25">
+      <img src="/images/authenticated-web-mcp/chatgpt-add-menu.png" alt="Add 메뉴의 Add custom MCP server 항목" />
+    </Frame>
   </Step>
-  <Step title="플러그인 생성 및 연결 승인">
-    경고를 검토하고 신뢰하는 서버인 경우 동의한 뒤 **Create as a plugin**을 선택합니다. 설치·연결 과정에서 ISOC의 연결 승인 화면이 열리면 아래 공통 승인 절차를 진행합니다.
+  <Step title="이름, Server URL, OAuth 입력">
+    Add custom MCP server 창에서 아래 값을 입력합니다.
+
+    | 입력 항목 | 값 |
+    | --- | --- |
+    | Name | ISOC Web MCP |
+    | Description (선택) | Search authenticated Stellar Cyber documentation |
+    | Connection | Server URL |
+    | Server URL | `https://browser.isoc.ooo/mcp` |
+    | Authentication | OAuth |
+
+    Advanced OAuth settings는 기본 자동 등록 설정을 사용합니다. 별도 Client ID나 Secret을 임의로 넣지 않습니다. 아래 캡처의 예시 URL 대신 위 ISOC URL을 입력하세요.
+
+    <Frame caption="실제 ChatGPT 입력창 · Qontex · 2026-10-09">
+      <img src="/images/authenticated-web-mcp/chatgpt-mcp-form.png" alt="Add custom MCP server 창의 Name, Connection, Server URL, Authentication과 생성 버튼" />
+    </Frame>
   </Step>
-  <Step title="대화에서 사용">
-    새 채팅에서 해당 플러그인을 선택하거나 @ 멘션으로 호출하고 첫 질문을 입력합니다. 조직 계정이라면 관리자가 게시·활성화해야 할 수 있습니다.
+  <Step title="위험 안내 확인 및 생성">
+    서버 운영자를 신뢰하고 위험 안내를 이해했다면 **I understand and want to continue**에 체크한 후 **Create as a plugin**을 클릭합니다.
+  </Step>
+  <Step title="개인 플러그인에서 설치 및 연결">
+    Plugins 페이지의 **Personal** 탭에서 생성한 ISOC Web MCP를 선택합니다. 표시되는 경우 **Install**, 이어서 **Connect**를 진행하고 아래 4번 MCP 연결 승인 절차를 완료합니다. 연결되면 Installed 목록에서 확인할 수 있습니다.
+  </Step>
+  <Step title="새 채팅에서 선택">
+    새 채팅에서 입력창의 **+** 메뉴 또는 `@`로 ISOC Web MCP를 선택하여 질문합니다. 도구 사용 요청이 나타나면 내용을 확인하고 허용합니다.
   </Step>
 </Steps>
 
-[OpenAI 공식 등록 안내](https://developers.openai.com/api/docs/guides/custom-mcp-server) · [계정 및 권한 요구 사항](https://help.openai.com/en/articles/12584461-connecting-custom-mcp-servers-in-chatgpt)
+<Note>메뉴가 없으면 웹 버전, 계정 플랜 및 워크스페이스의 Create plugins with MCPs 권한을 확인하세요. 조직에서는 관리자의 허용이 필요할 수 있습니다.</Note>
+
+[OpenAI 공식 등록 안내](https://developers.openai.com/api/docs/guides/custom-mcp-server) · [계정 및 권한 요구 사항](https://help.openai.com/en/articles/12584461-connecting-custom-mcp-servers-in-chatgpt) · [등록 화면 출처: Qontex](https://qontex.nl/en/handleidingen/chatgpt/server-op-afstand)
 
 ## 2. Claude에 등록
 
-[Claude 웹](https://claude.ai/)에서 설정합니다. 조직 계정은 관리자에 의해 커넥터가 먼저 추가되어야 할 수 있습니다.
+[Claude 웹](https://claude.ai/)에서 시작합니다. 개인 계정의 화면을 기준으로 설명합니다. Free 플랜은 사용자 지정 커넥터 1개로 제한됩니다. Team/Enterprise는 관리자가 먼저 등록해야 합니다.
 
 <Steps>
-  <Step title="커넥터 추가">
-    **Customize → Connectors → + Add → Add custom connector**를 선택합니다. Team/Enterprise 관리자는 **Organization settings → Connectors → Add → Custom → Web**을 사용합니다.
+  <Step title="Customize → Connectors">
+    왼쪽 **Customize**를 클릭하고 상단 **Connectors** 탭을 선택합니다.
 
-    <Frame caption="공식 설정 절차를 바탕으로 만든 화면 안내도 — 실제 Claude 캡처가 아닙니다.">
-      <img src="/images/authenticated-web-mcp/claude-setup.png" alt="Claude Customize Connectors에서 원격 MCP 주소를 등록하는 안내도" />
+    <Frame caption="실제 Claude 화면 · Qontex · 2026-11-16">
+      <img src="/images/authenticated-web-mcp/claude-connectors.png" alt="Customize 메뉴와 상단 Connectors 탭" />
     </Frame>
   </Step>
-  <Step title="주소 및 인증 설정">
-    이름은 **ISOC Web MCP**, Remote MCP server URL은 위 주소로 입력한 후 **Continue**를 선택합니다. 인증은 **Sign in now** 또는 필요할 때 로그인하는 방식을 선택합니다. OAuth client 선택이 나타나면 **Register automatically**를 사용합니다. 고정 API 키나 별도 Client Secret은 필요하지 않습니다.
+  <Step title="Add → Add custom connector">
+    오른쪽 상단 **+ Add**를 열고 **Add custom connector**를 클릭합니다.
+
+    <Frame caption="실제 Claude 화면 · Qontex · 2026-10-25">
+      <img src="/images/authenticated-web-mcp/claude-add-menu.png" alt="Claude Add 메뉴의 Add custom connector" />
+    </Frame>
   </Step>
-  <Step title="연결하고 대화에서 활성화">
-    **Add** 또는 **Connect**를 선택하고 공통 연결 승인 절차를 완료합니다. 채팅 입력창의 **+ → Connectors**에서 ISOC Web MCP를 활성화합니다.
+  <Step title="사용자 지정 URL 등록">
+    Add connector 창의 상단 검색창은 비워 두고 **Or add a custom connector by URL** 영역에서 Name에 **ISOC Web MCP**, MCP server URL에 아래 주소를 입력합니다.
+
+    ```text
+    https://browser.isoc.ooo/mcp
+    ```
+
+    **Continue**를 누릅니다.
+
+    <Frame caption="실제 Claude 입력창 · Qontex · 2026-11-16">
+      <img src="/images/authenticated-web-mcp/claude-mcp-form.png" alt="Add connector 창의 Name, MCP server URL, Continue" />
+    </Frame>
+  </Step>
+  <Step title="인증 방법 확인">
+    Claude가 감지한 인증 설정을 확인하고 **Continue**를 선택합니다. Authentication은 **Sign in now**를 권장합니다(필요할 때 로그인하는 옵션도 가능). OAuth client 선택에서는 ISOC가 지원하는 동적 등록 방식인 **Register automatically**를 선택합니다. Request headers, Client ID, Client Secret을 추가할 필요는 없습니다.
+  </Step>
+  <Step title="Add 및 Connect">
+    **Add**를 눌러 설정을 완료합니다. 로그인 요청이 나타나거나 목록에 **Connect**가 표시되면 클릭하고 아래 4번 공통 연결 승인을 완료합니다. Connectors의 **Yours** 탭에서 등록 여부를 확인합니다.
+  </Step>
+  <Step title="대화에서 활성화">
+    채팅 입력창 왼쪽 **+ → Connectors**에서 ISOC Web MCP의 스위치를 켭니다. 첫 도구 호출에서 승인 요청이 표시되면 요청 내용을 검토하고 필요한 권한만 허용합니다.
   </Step>
 </Steps>
 
-[Claude 공식 원격 MCP 안내](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp)
+Team/Enterprise 관리자 등록 순서: **Organization settings → Connectors → Add → Custom → Web** → 이름 및 URL 입력 → Continue → 인증 설정 확인 → Continue → Add. 일반 사용자는 Customize → Connectors에서 등록된 커넥터의 Connect를 선택합니다.
+
+[Claude 공식 원격 MCP 안내](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp) · [등록 화면 출처: Qontex](https://qontex.nl/en/handleidingen/claude/server-op-afstand)
 
 ## 3. Gemini 등록 안내 (호환성 미검증)
 
-Google은 일부 계정에 사용자 지정 MCP 앱 등록을 제공하며, 개발자 모드에서도 원격 MCP 서버를 시험할 수 있습니다. 2026년 11월 28일 공식 안내 기준 일반 사용자 기능은 미국의 만 18세 이상 개인 Google 계정, 기록(History) 활성화 및 영어 UI가 필요합니다. 메뉴가 보이지 않으면 지원 범위인지 확인하세요.
+2026년 11월 28일 Google 공식 안내 기준, 일반 사용자 지정 앱은 미국에 거주하는 만 18세 이상 개인 Google 계정, History 활성화, 영어 UI가 필요합니다. 한국 등 지원 지역 외에서는 메뉴가 나타나지 않을 수 있습니다.
 
-<Warning>ISOC 서버는 현재 ChatGPT와 Claude의 OAuth 콜백을 지원합니다. Gemini의 OAuth 콜백 및 전체 연결 과정은 아직 검증되지 않았습니다. 아래는 Google의 일반 등록 절차이며 ISOC 연결 성공을 보장하지 않습니다. 인증 오류가 발생하면 설정을 우회하지 말고 연결을 중단하세요.</Warning>
+<Warning>ISOC는 ChatGPT와 Claude의 OAuth 콜백을 검증했습니다. Gemini의 OAuth 콜백 및 실제 연결은 아직 미검증입니다. 아래는 실제 Google UI를 기준으로 한 등록 경로이지 ISOC 연결 성공 증거가 아닙니다. 설정을 우회하지 마세요.</Warning>
 
-**일반 사용자 등록 경로:** Gemini 웹 → Settings → Connected Apps (또는 Personal Intelligence → Connected Apps) → Custom apps → Add a custom app → MCP URL 입력 → Next. 등록되면 채팅에서 @로 앱을 선택할 수 있습니다.
-
-**개발자 모드에서 시험하는 방법:**
+### 일반 사용자용 Connected Apps
 
 <Steps>
-  <Step title="Gemini 웹 개발자 모드 열기">
-    [Gemini 개발자 모드](https://gemini.google.com/devmode) 또는 **Settings → Gemini Apps Developer Mode**를 선택합니다.
-  </Step>
-  <Step title="새 MCP 앱 생성">
-    **Choose an app → + Create new**를 선택하고 MCP Server URL에 위 주소를 입력합니다. 자동 등록을 지원하는 서버이므로 수동 OAuth 값을 임의로 입력하지 않습니다.
+  <Step title="Settings → Connected Apps">
+    [Gemini 웹](https://gemini.google.com/)의 왼쪽 아래 **Settings → Connected Apps**를 선택합니다. 메뉴가 없으면 **Personal Intelligence → Connected Apps**를 확인합니다. Spark 화면에서는 왼쪽 Connected Apps를 직접 선택할 수 있습니다.
 
-    <Frame caption="Google 공식 개발자 모드 절차를 바탕으로 만든 안내도 — ISOC 연동 결과 화면이 아닙니다.">
-      <img src="/images/authenticated-web-mcp/gemini-setup.png" alt="Gemini 개발자 모드의 Create new 및 MCP Server URL 입력 안내도" />
+    <Frame caption="실제 Gemini Spark 화면 · Vocci 공개 가이드 · 2026년 10월">
+      <img src="/images/authenticated-web-mcp/gemini-connected-apps.png" alt="Gemini Spark Connected Apps 화면의 Custom apps 탭" />
     </Frame>
   </Step>
-  <Step title="권한을 검토하고 도구 발견 여부 확인">
-    **Next → Connect** 후 이름을 저장하고 사용 가능한 도구를 확인합니다. 오류가 나면 Google 계정 지원 조건 및 서버 호환성 검증이 필요합니다. 일반 Connected Apps의 사용자 지정 앱 추가 메뉴가 제공되는 계정에서도 공식 안내를 참고할 수 있습니다.
+  <Step title="Custom apps → Add a custom app">
+    **Custom apps** 탭 또는 해당 영역에서 **Add a custom app**을 선택합니다. Add a custom app link에 아래 주소를 입력합니다. 캡처의 Vocci 주소는 다른 서비스 예시이므로 사용하지 마세요.
+
+    ```text
+    https://browser.isoc.ooo/mcp
+    ```
+
+    <Frame caption="실제 Gemini 등록 창 · Vocci 공개 가이드 · 예시 서비스 주소 표시">
+      <img src="/images/authenticated-web-mcp/gemini-custom-app-form.png" alt="Set up a custom connected app 창의 URL 입력란, Advanced Settings, Next" />
+    </Frame>
+    **Next**를 클릭합니다. 자동 등록을 사용할 수 있는 경우 Client ID와 Secret은 입력하지 않습니다.
+  </Step>
+  <Step title="승인 및 앱 확인">
+    위험 안내를 읽고 신뢰할 때만 확인란에 체크한 후 **Connect**를 클릭합니다. 필요한 OAuth 승인 화면이 나타나면 확인합니다. 이름 및 사용 가능한 도구를 확인하고 **Connect**를 완료한 뒤 앱이 활성화되었는지 확인합니다. 오류 발생 시 중단하세요.
   </Step>
 </Steps>
 
-[Google 사용자 지정 앱 안내](https://support.google.com/gemini/answer/17209137) · [Google 개발자 모드 등록 안내](https://developers.google.com/connected-apps/mcp/dev-mode/usage)
+[Google 공식 사용자 지정 앱 안내](https://support.google.com/gemini/answer/17209137) · [일반 등록 화면 출처: Vocci](https://docs.vocci.ai/users/clients/gemini-spark)
+
+### 개발자 모드에서 시험하기
+
+개발자 모드는 일반 사용자 등록과 별도의 테스트 화면입니다. 메뉴가 계정에 제공되는 경우에만 사용할 수 있습니다.
+
+<Steps>
+  <Step title="Settings → Gemini Apps Developer Mode">
+    [Gemini Developer Mode](https://gemini.google.com/devmode)를 열거나 Settings에서 **Gemini Apps Developer Mode**를 선택합니다. **Choose an app → + Create new**를 클릭합니다.
+  </Step>
+  <Step title="Connect to an MCP server">
+    **MCP Server URL**에 ISOC 주소를 입력하고 **Next**를 클릭합니다. Additional settings는 사전 등록된 OAuth 값이 필요한 경우에만 사용합니다.
+
+    <Frame caption="실제 Gemini 개발자 모드 입력창 · BuildFlows 공개 가이드">
+      <img src="/images/authenticated-web-mcp/gemini-developer-form.jpg" alt="개발자 모드 Connect to an MCP server 창, MCP Server URL, Additional settings, Next" />
+    </Frame>
+  </Step>
+  <Step title="위험 안내 확인 및 도구 목록 확인">
+    위험 안내의 동의란을 확인한 후 **Connect**를 클릭합니다. **Save your custom app** 창에 이름을 입력하고 Available actions를 검토한 뒤 다시 **Connect**를 클릭합니다. 오른쪽 Tool schemas와 Authentication에서 도구 및 인증 상태를 확인할 수 있습니다.
+
+    <Frame caption="Google 공식 개발자 모드 화면 · 다른 샘플 앱의 테스트 결과">
+      <img src="/images/authenticated-web-mcp/gemini-developer-workspace.png" alt="Gemini 채팅 및 Developer Mode Event log, Tool schemas, Environment, Authentication 탭" />
+    </Frame>
+  </Step>
+</Steps>
+
+[Google 개발자 모드 절차](https://developers.google.com/connected-apps/mcp/dev-mode/usage) · [Google 공식 화면 출처](https://developers.google.com/connected-apps/mcp/dev-mode) · [개발자 모드 입력창 출처: BuildFlows](https://www.buildflows.ai/articles/connect-procore-mcp-server-google-gemini)
 
 ## 4. MCP 연결 승인 (공통)
 
