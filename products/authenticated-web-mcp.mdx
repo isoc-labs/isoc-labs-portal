@@ -314,7 +314,7 @@ You can retrieve original screenshots, diagrams and attachments from an authoriz
 | Integrity | Filename, media type, byte size, SHA-256 and available raster dimensions |
 | File limit | Up to 16 MiB, with 512 KiB chunks for larger files |
 
-<Note>ChatGPT successfully acquired an original Stellar Cyber PNG file and inserted it into Word and PowerPoint with matching original and embedded image SHA-256 hashes. Actual large-file chunk materialization and Claude document authoring have not yet been verified. File handling support varies by AI host. Seeing a preview or a URL is not the same as acquiring an actual file. Download addresses require the connection's OAuth authentication; opening an address in an ordinary browser without authentication may fail. Never paste tokens into chat.</Note>
+<Note>ChatGPT successfully acquired an original Stellar Cyber PNG file and inserted it into Word and PowerPoint with matching original and embedded image SHA-256 hashes. A user-reported Claude test also successfully embedded five original images in Word and PowerPoint and reconstructed three PDFs larger than 512 KiB, with matching SHA-256 hashes. File handling support varies by AI host. Seeing a preview or a URL is not the same as acquiring an actual file. Download addresses require the connection's OAuth authentication; opening an address in an ordinary browser without authentication may fail. Never paste tokens into chat.</Note>
 
 Check the source before opening files. Original-file retrieval is not a malware scanner.
 
@@ -332,6 +332,7 @@ Check the source before opening files. Original-file retrieval is not a malware 
 | Busy (busy) | Wait briefly and try again |
 | File access denied (access_denied) | Check your permission to view the original file |
 | Size limit (size_limit_exceeded) | Select a file within the 16 MiB limit |
+| busy (concurrent download limit) | Wait briefly and retry only the failed chunk. Prefer sequential file downloads. |
 | Cannot save the file | Check the AI host file support; a preview alone is not an acquired original |
 
 ### Sign out or disconnect
