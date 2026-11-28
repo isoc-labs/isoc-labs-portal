@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Offline publication parity: v1.2 rules, catalog, bilingual pages."""
 from pathlib import Path
-import csv,hashlib,re
+import csv,hashlib,json,re
 
 ROOT=Path(__file__).resolve().parents[2]
 D=ROOT/"downloads"
@@ -29,6 +29,16 @@ def verify():
         assert z.read("source-map.csv")==(ROOT/"validation/agentic-20261121/source-map.csv").read_bytes()
         assert z.read("SHA256SUMS-v1.2.txt")==f"{SHA}  {RULE}\n".encode()
         assert {"README-v1.2-KO.txt","README-v1.2-EN.txt","LICENSE-THREATDEFENCE.txt"}.issubset(z.namelist())
+    # The portal now uses a stable Mintlify redirect for the same immutable ZIP.
+    # The pinned object is byte-identical to the local verified archive.
+    zip_name="local-web-attack-ai-v1.2-383.zip"
+    zip_bytes=(D/zip_name).read_bytes()
+    blob=hashlib.sha1(f"blob {len(zip_bytes)}\0".encode()+zip_bytes).hexdigest()
+    assert blob=="6a89cadaf9654fd44236a55d9d0259e83909b880"
+    redirect="/get/suricata-v1-2-383-zip"
+    matches=[r for r in json.loads((ROOT/"docs.json").read_text())["redirects"] if r["source"]==redirect]
+    assert len(matches)==1
+    assert matches[0]["destination"]=="https://raw.githubusercontent.com/isoc-labs/isoc-labs-portal/db172b91ac56bc0051cea7ad1e077b6e28b58e17/downloads/"+zip_name
     for f in ("products/ai-assisted-attack-detection-rules.mdx",
               "ko/products/ai-assisted-attack-detection-rules.mdx"):
         src=(ROOT/f).read_text()
@@ -36,7 +46,7 @@ def verify():
         assert "선택적 헌팅 14개" not in src
         assert "별도의 선택적 파일을 병합" not in src
         assert all(x.strip() == "</Card>" for x in src.splitlines() if "</Card>" in x), f"Invalid mixed Card closing tag: {f}"
-        for item in (RULE,CAT,"local-web-attack-ai-v1.2-383.zip",SHA,"49/49","383","44","9005017","9005055"):
+        for item in (RULE,CAT,redirect,SHA,"49/49","383","44","9005017","9005055"):
             assert item in src, (f,item)
     print("PUBLICATION_PASS 383 rules, catalog and EN/KR pages; original 339 bytes preserved")
 if __name__=="__main__": verify()
